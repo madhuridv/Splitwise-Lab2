@@ -1,46 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const Users = require("../models/userModel");
-const db = require("../connection");
+const kafka = require("../kafka/client");
 
-router.post("/", async (req, res) => {
-  console.log("inside signup");
-  console.log("req.body", req.body);
-  let userModel = new Users({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-  });
-  Users.findOne({ email: req.body.email }, (error, user) => {
-    if (error) {
+router.post("/", (req, res) => {
+  kafka.make_request("signup", req.body, (err, result) => {
+    console.log("Created user Details:",result)
+    if (result === 500) {
       res.writeHead(500, {
         "Content-Type": "text/plain",
       });
-      res.end("Error Occured");
-    }
-    if (user) {
-      res.writeHead(400, {
+      res.end("Server Side Error");
+    } else if (result === 299) {
+      res.writeHead(299, {
         "Content-Type": "text/plain",
       });
       res.end("USER_EXISTS");
-    } else {
-      userModel.save((error, data) => {
-        if (error) {
-          res.writeHead(500, {
-            "Content-Type": "text/plain",
-          });
-          res.end();
-        } else {
-          res.writeHead(200, {
-            "Content-Type": "text/plain",
-          });
-          console.log("User model",userModel);
-          res.end(JSON.stringify(userModel));
-        }
+    } else  {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
       });
+      res.end(JSON.stringify(result));
     }
   });
- 
 });
 
 module.exports = router;

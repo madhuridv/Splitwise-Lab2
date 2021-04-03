@@ -12,7 +12,7 @@ const jwt_decode = require("jwt-decode");
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { token: "" };
   }
 
   onChange = (e) => {
@@ -40,8 +40,9 @@ class Login extends Component {
     let message = "";
 
     console.log(this.props.user);
-    var decoded = jwt_decode(this.state.token.split(" ")[1]);
-    console.log(decoded);
+    console.log(this.props.user.token);
+    //var decoded = jwt_decode(this.state.token.split(" ")[1]);
+    //console.log(decoded);
     if (this.props.user && this.props.user.id) {
       localStorage.setItem("email_id", this.props.user.email);
       localStorage.setItem("user_id", this.props.user.id);

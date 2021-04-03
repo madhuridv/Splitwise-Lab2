@@ -1,7 +1,7 @@
 const app = require("./app");
-const db = require("./connection");
+//const db = require("./connection");
 
-db();
+//db();
 
 const login = require("./routes/login");
 const signup = require("./routes/signup");

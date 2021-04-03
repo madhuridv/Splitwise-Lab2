@@ -39,7 +39,9 @@ class UserSignup extends Component {
     let redirectVar = null;
     let message = "";
 
-    console.log("this.props.user", this.props.user);
+    console.log("this.props.user_id", this.props.user._id);
+    console.log("this.props.username", this.props.user.username);
+
     if (this.props.user._id && this.state.signupFlag) {
       localStorage.setItem("email_id", this.props.user.email);
       localStorage.setItem("name", this.props.user.username);
