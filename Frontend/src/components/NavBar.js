@@ -11,7 +11,7 @@ class NavBar extends Component {
         {" "}
         <Navbar bg="light" expand="lg">
           <img className="landing-logo" src={logo} alt="Logo" width="20px" />
-          <Navbar.Brand href="#home" margin="5px ">
+          <Navbar.Brand href="http://localhost:3000/" margin="5px ">
             Splitwise
           </Navbar.Brand>
           <Nav className="mr-auto">

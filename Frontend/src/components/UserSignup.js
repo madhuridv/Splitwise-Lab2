@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { userSignup } from "../actions/signupActions";
 import { Redirect } from "react-router";
-
+import NavBar from "./NavBar";
 import logo from "../images/logo.png";
 
 class UserSignup extends Component {
@@ -54,63 +54,68 @@ class UserSignup extends Component {
       message = "Email ID is already registered";
     }
     return (
-      <div className="container signup">
-        {redirectVar}
+      <div>
+        <main>
+          <NavBar />
+        </main>
+        <div className="container signup">
+          {redirectVar}
 
-        <div className="signup-logo">
-          <img src={logo} style={{ height: "fit-content" }} alt="Splitwise" />
-        </div>
-
-        <div className="signup-form">
-          <div className="panel">
-            <h2>INTRODUCE YOURSELF</h2>
+          <div className="signup-logo">
+            <img src={logo} style={{ height: "fit-content" }} alt="Splitwise" />
           </div>
-          <br />
 
-          <form onSubmit={this.onSubmit}>
-            <label htmlFor="">Hi there! My name is</label>
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              onChange={this.onChange}
-              placeholder="Name"
-              pattern="^[A-Za-z0-9 ]+$"
-              required
-            />
-
-            <label htmlFor="">Here’s my email address:</label>
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              onChange={this.onChange}
-              placeholder="Email Id"
-              pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$"
-              title="Please enter valid email address"
-              required
-            />
-
-            <label htmlFor="">And here’s my password:</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              onChange={this.onChange}
-              placeholder="Password"
-              required
-            />
-
-            <div style={{ color: "#ff0000" }}>{message}</div>
-            <br />
-            <button type="submit" className="btn btn-primary">
-              Signup
-            </button>
-            <br />
+          <div className="signup-form">
+            <div className="panel">
+              <h2>INTRODUCE YOURSELF</h2>
+            </div>
             <br />
 
-            <br />
-          </form>
+            <form onSubmit={this.onSubmit}>
+              <label htmlFor="">Hi there! My name is</label>
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                onChange={this.onChange}
+                placeholder="Name"
+                pattern="^[A-Za-z0-9 ]+$"
+                required
+              />
+
+              <label htmlFor="">Here’s my email address:</label>
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                onChange={this.onChange}
+                placeholder="Email Id"
+                pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$"
+                title="Please enter valid email address"
+                required
+              />
+
+              <label htmlFor="">And here’s my password:</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                onChange={this.onChange}
+                placeholder="Password"
+                required
+              />
+
+              <div style={{ color: "#ff0000" }}>{message}</div>
+              <br />
+              <button type="submit" className="btn btn-primary">
+                Signup
+              </button>
+              <br />
+              <br />
+
+              <br />
+            </form>
+          </div>
         </div>
       </div>
     );

@@ -26,29 +26,13 @@ class DashboardHeader extends Component {
       <Dropdown>
         <Dropdown.Toggle variant="link" id="dropdown-basic">
           Hi {this.state.name}! &nbsp;
-          {/* <img className="picture" src={profile_icon} alt="profile_icon" /> */}
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item>
-            <Link to="/profile" class="nav-link">
-              &nbsp;&nbsp;Your Account
-            </Link>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <Link to="/creategroup" class="nav-link">
-              &nbsp;&nbsp;Create Group
-            </Link>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <Link to="/mygroup" class="nav-link">
-              &nbsp;&nbsp; My Group
-            </Link>
-          </Dropdown.Item>
-
-          <Dropdown.Item>
-            <Link to="/" class="nav-link" onClick={this.handleLogout}>
-              &nbsp;&nbsp;Logout
-            </Link>
+          <Dropdown.Item href="/profile">Your Account</Dropdown.Item>
+          <Dropdown.Item href="/creategroup">Create Group</Dropdown.Item>
+          <Dropdown.Item href="/mygroup">My Group</Dropdown.Item>
+          <Dropdown.Item href="/" onClick={this.handleLogout}>
+            Logout
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

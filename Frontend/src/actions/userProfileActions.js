@@ -3,7 +3,7 @@ import backendServer from "../webConfig"
 import axios from "axios";
 
 export const getUser = () => dispatch => {
-    axios.get(`${backendServer}/profile/${localStorage.getItem("user_id")}`)
+        axios.get(`${backendServer}/profile/${localStorage.getItem("user_id")}`)
         .then(response => response.data[0])
         .then(customer => dispatch({
             type: GET_USER,

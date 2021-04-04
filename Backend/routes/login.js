@@ -8,30 +8,6 @@ const { auth } = require("../utils/passport");
 const { secret } = require("../utils/config");
 auth();
 
-// router.post("/", (req, res) => {
-//   console.log("inside post login request");
-//   console.log("req.body", req.body);
-//    Users.findOne({ email: req.body.email, password: req.body.password }, (error, user) => {
-//     if (error) {
-//         res.status(500).end("Error Occured");
-//     }
-//     if (user) {
-//       console.log("user",user);
-//         const payload = { _id: user._id, username: user.username};
-//         const token = jwt.sign(payload, secret, {
-//             expiresIn: 1008000
-//         });
-//       console.log("auth successful")
-//        res.status(200).end("JWT " + token);
-//     }
-//     else {
-//         res.status(401).end("Invalid Credentials");
-//   }
-// })
-// });
-
-// module.exports = router;
-
 router.post("/", (req, res) => {
   kafka.make_request("user_login", req.body, (err, result) => {
     console.log("result is:", result);
@@ -47,12 +23,12 @@ router.post("/", (req, res) => {
         res.writeHead(207, {
           "Content-Type": "text/plain",
         });
-        res.end("Invalid user");
+        res.end("NO_USER");
       } else if (result === 209) {
         res.writeHead(209, {
           "Content-Type": "text/plain",
         });
-        res.end("Wrong Password");
+        res.end("INCORRECT_PASSWORD");
       } else {
         const payload = { _id: result._id, source: "customer" };
         const token = jwt.sign(payload, secret, {
@@ -68,6 +44,7 @@ router.post("/", (req, res) => {
         res.writeHead(200, {
           "Content-Type": "applicaton/json",
         });
+        console.log("Result sending to frontend:",JSON.stringify(result))
         res.end(JSON.stringify(result));
       }
     }

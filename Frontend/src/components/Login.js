@@ -7,12 +7,28 @@ import { userLogin } from "../actions/loginAction";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/signup.css";
 import logo from "../images/logo.png";
-const jwt_decode = require("jwt-decode");
+import NavBar from "./NavBar";
+//let jwt_decode = require("jwt-decode");
+import jwt_decode from "jwt-decode";
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { token: "" };
+    this.state = {
+      token: "",
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      var { user } = nextProps;
+
+      var loginData = {
+        token: user.token || this.state.token,
+      };
+
+      this.setState(loginData);
+    }
+    console.log(loginData);
   }
 
   onChange = (e) => {
@@ -39,13 +55,17 @@ class Login extends Component {
     let redirectVar = null;
     let message = "";
 
-    console.log(this.props.user);
-    console.log(this.props.user.token);
-    //var decoded = jwt_decode(this.state.token.split(" ")[1]);
-    //console.log(decoded);
-    if (this.props.user && this.props.user.id) {
+    console.log("token length:", this.state.token.length);
+
+    if (this.state.token.length > 0) {
+      //localStorage.setItem("token", this.props.user.token);
+      var decoded = jwt_decode(this.state.token.split(" ")[1]);
+      console.log("decoded", decoded);
+    }
+
+    if (this.props.user && this.props.user._id && decoded._id) {
       localStorage.setItem("email_id", this.props.user.email);
-      localStorage.setItem("user_id", this.props.user.id);
+      localStorage.setItem("user_id", this.props.user._id);
       localStorage.setItem("name", this.props.user.username);
       console.log(localStorage.getItem("name"));
       console.log(localStorage.getItem("email_id"));
@@ -64,7 +84,9 @@ class Login extends Component {
       <div>
         <Header />
         {redirectVar}
-
+        <main>
+          <NavBar />
+        </main>
         <div className="container signup">
           <div className="signup-logo">
             <img
