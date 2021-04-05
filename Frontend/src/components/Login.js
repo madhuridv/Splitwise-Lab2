@@ -8,7 +8,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/signup.css";
 import logo from "../images/logo.png";
 import NavBar from "./NavBar";
-//let jwt_decode = require("jwt-decode");
 import jwt_decode from "jwt-decode";
 
 class Login extends Component {

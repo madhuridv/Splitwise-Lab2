@@ -23,9 +23,10 @@ const mongoConnection = async () => {
 mongoConnection();
 //topics files
 
-var user_login = require("./services/user_login");
-var signup = require("./services/signup");
-//var customer_register = require("./services/Customers/CustomerAuthentication/register_customer");
+let user_login = require("./services/authentication/user_login");
+let signup = require("./services/authentication/signup");
+let getuser = require("./services/UserProfile/getuser");
+let updateuser = require("./services/UserProfile/updateuser");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -85,3 +86,5 @@ function response(data, res, producer) {
 //second argument is a function that will handle this topic request
 handleTopicRequest("user_login", user_login);
 handleTopicRequest("signup", signup);
+handleTopicRequest("getuser", getuser);
+handleTopicRequest("updateuser", updateuser);

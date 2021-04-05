@@ -34,18 +34,18 @@ class UserProfile extends Component {
       var { user } = nextProps;
 
       var userData = {
-        user_id: user.id || this.state.user_id,
+        user_id: user._id || this.state.user_id,
         name: user.username || this.state.name,
         email: user.email || this.state.email,
-        address: user.address || this.state.address,
         phone_number: user.phone_number || this.state.phone_number,
         user_image: user.user_image || this.state.user_image,
         currency: user.currency || this.state.currency,
-        user_language: user.user_language || this.state.user_language,
+        user_language: user.language || this.state.language,
         timezone: user.timezone || this.state.timezone,
       };
 
       this.setState(userData);
+      console.log("userData", userData);
     }
   }
 
@@ -108,22 +108,20 @@ class UserProfile extends Component {
     }
     return (
       <div className="container signup">
-
         <div className="col">
-          
-         <img
+          <img
             className="img-fluid"
             src={imageSrc}
             alt="profile picture"
-           style={{ height: 300, width :300 }}
-          /> 
+            style={{ height: 300, width: 300 }}
+          />
 
           <form onSubmit={this.onUpload}>
-            <div class="form-group">
-              <label for="image">Change your avatar</label>
+            <div className="form-group">
+              <label htmlFor="image">Change your avatar</label>
               <input
                 type="file"
-                class="form-control-file"
+                className="form-control-file"
                 name="image"
                 accept="image/*"
                 onChange={this.onImageChange}
@@ -135,7 +133,7 @@ class UserProfile extends Component {
             </Button>
           </form>
         </div>
-        <div class="signup-form">
+        <div className="signup-form">
           <form onSubmit={this.onUpdate}>
             <div className="row">
               <div className="col">
@@ -169,8 +167,11 @@ class UserProfile extends Component {
                     Your phone number
                   </label>
                   <input
-                    type="text"
+                    type="tel"
                     name="phone_number"
+                    pattern="^[0-9]+$"
+                    minLength="10"
+                    maxLength="10"
                     className="form-control"
                     onChange={this.onChange}
                     value={this.state.phone_number}

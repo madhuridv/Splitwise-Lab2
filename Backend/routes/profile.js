@@ -1,22 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const passwordHash = require("password-hash");
-const pool = require("../connection");
+const kafka = require("../kafka/client");
 
 router.get("/:user_id", (req, res) => {
-  kafka.make_request("signup", req.body, (err, result) => {
-    console.log("Created user Details:",result)
+  console.log("inside getuser backend");
+  console.log("req.params", req.params);
+  kafka.make_request("getuser", req.params, (err, result) => {
+    console.log("Get user Details:", result);
     if (result === 500) {
       res.writeHead(500, {
         "Content-Type": "text/plain",
       });
       res.end("Server Side Error");
-    } else if (result === 299) {
+    } else if (result === 207) {
       res.writeHead(299, {
         "Content-Type": "text/plain",
       });
-      res.end("USER_EXISTS");
-    } else  {
+      res.end("No_USER_DETAILS");
+    } else {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
@@ -25,6 +26,34 @@ router.get("/:user_id", (req, res) => {
   });
 });
 
+router.post("/user", (req, res) => {
+  console.log("inside user profile update");
+  console.log("req.body", req.body);
+  kafka.make_request("updateuser", req.body, (err, result) => {
+    console.log("updated details:", result);
+    if (result === 500) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("SERVER_ERROR");
+    } else if (result === 207) {
+      res.writeHead(207, {
+        "Content-Type": "text/plain",
+      });
+      res.end("NO_USER_DETAILS");
+    } else if (result === 209) {
+      res.writeHead(209, {
+        "Content-Type": "text/plain",
+      });
+      res.end("SAVE_FAILED");
+    } else {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
 // router.get("/:user_id", (req, res) => {
 //   let sql = `CALL getUserDetails('${req.params.user_id}', NULL);`;
 //   pool.query(sql, (err, result) => {

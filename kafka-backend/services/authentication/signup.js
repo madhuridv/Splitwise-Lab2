@@ -1,6 +1,6 @@
 "use strict";
 const bcrypt = require("bcrypt");
-const Users = require("../Models/userModel");
+const Users = require("../../Models/userModel");
 const saltRounds = 10;
 
 function handle_request(msg, callback) {

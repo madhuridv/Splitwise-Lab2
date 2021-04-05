@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-var Users = require("../Models/userModel");
+const Users = require("../../Models/userModel");
 
 function handle_request(message, callback) {
   console.log("inside handle req user login", message.email);
@@ -16,8 +16,7 @@ function handle_request(message, callback) {
       callback(null, 500);
     } else if (user === null) {
       callback(null, 207);
-    }
-    else {
+    } else {
       bcrypt.compare(message.password, user.password, (err, isPasswordTrue) => {
         if (err) {
           callback(null, 500);

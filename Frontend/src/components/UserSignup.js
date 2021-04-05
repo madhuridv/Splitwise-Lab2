@@ -43,6 +43,7 @@ class UserSignup extends Component {
     console.log("this.props.username", this.props.user.username);
 
     if (this.props.user._id && this.state.signupFlag) {
+      localStorage.setItem("user_id", this.props.user._id);
       localStorage.setItem("email_id", this.props.user.email);
       localStorage.setItem("name", this.props.user.username);
       console.log(localStorage.getItem("name"));
