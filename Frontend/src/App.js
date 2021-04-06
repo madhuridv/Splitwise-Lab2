@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Profile from "./Profile/Profile";
-// import Group from "./Group/Group";
+import Group from "./Group/Group";
 // import MyGroup from "./AddExpense/MyGroup";
 // import ShowGroups from "./AddExpense/ShowGroup";
 // import RecentActivity from "./components/Dashboard/RecentActivity/RecentActivity";
@@ -25,8 +25,8 @@ class App extends Component {
               <Route path="/signup" component={UserSignup} />
               <Route exact path="/dashboard" component={Dashboard}></Route>
               <Route path="/profile" component={Profile} />
-              {/* <Route path="/creategroup" component={Group} />
-              <Route path="/mygroup" component={MyGroup} />
+               <Route path="/creategroup" component={Group} />
+              {/*<Route path="/mygroup" component={MyGroup} />
               <Route path="/groups/:groupName" component={ShowGroups} />
               <Route path="/recentactivity" component={RecentActivity} /> */}
             </Switch>

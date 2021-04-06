@@ -27,6 +27,7 @@ let user_login = require("./services/authentication/user_login");
 let signup = require("./services/authentication/signup");
 let getuser = require("./services/UserProfile/getuser");
 let updateuser = require("./services/UserProfile/updateuser");
+let getallusers = require("./services/createGroup/getallusers");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -88,3 +89,4 @@ handleTopicRequest("user_login", user_login);
 handleTopicRequest("signup", signup);
 handleTopicRequest("getuser", getuser);
 handleTopicRequest("updateuser", updateuser);
+handleTopicRequest("getallusers", getallusers);
