@@ -34,17 +34,10 @@ class CreateGroup extends Component {
   componentWillReceiveProps(nextProps) {
     console.log("nextProps.user", nextProps.user);
 
-    // this.setState({
-    //   userData: this.state.userData.concat(response.data),
-    // });
-    // console.log("userdata:", this.state.userData);
-    // if (nextProps.user) {
-    //   var { user } = nextProps;
-    //   console.log(user);
-    //   var userData = user.map((a) => a.email);
-    //   this.setState(userData);
-    //   console.log("userData", userData);
-    // }
+    this.setState({
+      userData: this.state.userData.concat(nextProps.user),
+    });
+    console.log("userdata:", this.state.userData);
   }
 
   onImageChange = (e) => {
@@ -84,11 +77,11 @@ class CreateGroup extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.selected);
+    console.log("selected array", this.state.selected);
     let members = [];
 
     for (var i = 0; i < this.state.selected.length; i++) {
-      members[i] = this.state.selected[i].id;
+      members[i] = this.state.selected[i].email;
     }
     console.log("members array:", members);
 
@@ -99,21 +92,21 @@ class CreateGroup extends Component {
     };
 
     console.log("groupData is :", groupData);
-    axios.defaults.withCredentials = true;
-    axios
-      .post(`${backendServer}/creategroup/addgroup`, groupData)
-      .then((response) => {
-        console.log("response after post", response);
-        if (response.status == 200 && response.data === "GROUP_ADDED") {
-          alert("Group created sucessfully!");
-        } else {
-          alert("Group name already exists!");
-        }
-      })
-      .catch((error) => {
-        alert("Group name already exists!");
-        console.log("error:", error);
-      });
+    // axios.defaults.withCredentials = true;
+    // axios
+    //   .post(`${backendServer}/creategroup/addgroup`, groupData)
+    //   .then((response) => {
+    //     console.log("response after post", response);
+    //     if (response.status == 200 && response.data === "GROUP_ADDED") {
+    //       alert("Group created sucessfully!");
+    //     } else {
+    //       alert("Group name already exists!");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     alert("Group name already exists!");
+    //     console.log("error:", error);
+    //   });
   };
 
   onChange = (e) => {
@@ -125,7 +118,7 @@ class CreateGroup extends Component {
     var imageSrc;
     //let details = this.state.userData;
     let details = this.state.userData;
-    console.log(details);
+    console.log("details", details);
 
     if (this.state) {
       imageSrc = `${backendServer}/images/${this.state.user_image}`;

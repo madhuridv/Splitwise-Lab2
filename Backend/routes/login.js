@@ -44,7 +44,7 @@ router.post("/", (req, res) => {
         res.writeHead(200, {
           "Content-Type": "applicaton/json",
         });
-        console.log("Result sending to frontend:",JSON.stringify(result))
+        console.log("Result sending to frontend:", JSON.stringify(result));
         res.end(JSON.stringify(result));
       }
     }
