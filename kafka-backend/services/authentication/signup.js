@@ -30,7 +30,7 @@ function handle_request(msg, callback) {
           username: username,
         });
 
-        console.log("USer", userToCreate);
+        console.log("User", userToCreate);
         userToCreate.save((error) => {
           if (error) {
             console.log(`Saving Error in Signup: ${error}`);

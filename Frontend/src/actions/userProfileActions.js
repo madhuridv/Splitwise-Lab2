@@ -14,14 +14,7 @@ export const getUser = () => (dispatch) => {
         payload: response.data,
       });
     })
-    // response.data[0])
-    // .then((user) => {
-    //   console.log("user is:", user);
-    //   dispatch({
-    //     type: GET_USER,
-    //     payload: user,
-    //   });
-    // })
+
     .catch((error) => {
       console.log(error);
     });
@@ -40,6 +33,8 @@ export const updateUser = (userProfileData) => (dispatch) => {
         alert("Update Failed! Please Try Again");
       } else if (response.status === 207) {
         alert("No User Found");
+      } else if (response.status === 299) {
+        alert("This Email ID is unavailable!. Please try with another ID");
       } else {
         alert("Server Error!");
       }
@@ -48,17 +43,6 @@ export const updateUser = (userProfileData) => (dispatch) => {
         payload: response.data,
       });
     })
-    // .then((data) => {
-    //   console.log("data from backend:", data);
-    //   if (data === "USER_UPDATED") {
-    //     // localStorage.setItem("name", userProfileData.name);
-    //     alert("Profile Updated Successfully!");
-    //   }
-    //   return dispatch({
-    //     type: UPDATE_USER,
-    //     payload: data,
-    //   });
-    // })
     .catch((error) => {
       console.log(error);
     });

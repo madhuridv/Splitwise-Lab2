@@ -3,7 +3,7 @@ import backendServer from "../webConfig";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { Multiselect } from "multiselect-react-dropdown";
-import { getAllUsers } from "../actions/createGroupActions";
+import { getAllUsers, addGroup } from "../actions/createGroupActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -15,6 +15,7 @@ class CreateGroup extends Component {
       user_id: localStorage.getItem("user_id"),
       groupname: "",
       userData: [],
+      //userData: {},
       selected: [],
     };
     this.onChange = this.onChange.bind(this);
@@ -81,7 +82,7 @@ class CreateGroup extends Component {
     let members = [];
 
     for (var i = 0; i < this.state.selected.length; i++) {
-      members[i] = this.state.selected[i].email;
+      members[i] = this.state.selected[i]._id;
     }
     console.log("members array:", members);
 
@@ -92,21 +93,7 @@ class CreateGroup extends Component {
     };
 
     console.log("groupData is :", groupData);
-    // axios.defaults.withCredentials = true;
-    // axios
-    //   .post(`${backendServer}/creategroup/addgroup`, groupData)
-    //   .then((response) => {
-    //     console.log("response after post", response);
-    //     if (response.status == 200 && response.data === "GROUP_ADDED") {
-    //       alert("Group created sucessfully!");
-    //     } else {
-    //       alert("Group name already exists!");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert("Group name already exists!");
-    //     console.log("error:", error);
-    //   });
+    this.props.addGroup(groupData);
   };
 
   onChange = (e) => {
@@ -195,7 +182,7 @@ class CreateGroup extends Component {
 }
 CreateGroup.propTypes = {
   getAllUsers: PropTypes.func.isRequired,
-  //updateUser: PropTypes.func.isRequired,
+  addGroup: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };
 
@@ -203,4 +190,4 @@ const mapStateToProps = (state) => ({
   user: state.createGroup.user,
 });
 
-export default connect(mapStateToProps, { getAllUsers })(CreateGroup);
+export default connect(mapStateToProps, { getAllUsers, addGroup })(CreateGroup);

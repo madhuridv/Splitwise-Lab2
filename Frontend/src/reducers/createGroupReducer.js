@@ -1,4 +1,4 @@
-import { GET_ALL_USER, UPDATE_USER } from '../actions/types';
+import { GET_ALL_USER, ADD_GROUP } from '../actions/types';
 
  const initialState = {
      user: {}
@@ -12,7 +12,7 @@ import { GET_ALL_USER, UPDATE_USER } from '../actions/types';
                 ...state,
                 user: action.payload
             };
-        case UPDATE_USER:
+        case ADD_GROUP:
             return {
                 ...state,
                 user: action.payload

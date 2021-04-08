@@ -4,4 +4,6 @@ export const USER_SIGNUP = "USER_SIGNUP";
 export const GET_USER = "GET_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const GET_ALL_USER = 'GET_ALL_USER';
+export const ADD_GROUP = 'ADD_GROUP';
+
 // export const UPDATE_OWNER = 'UPDATE_OWNER';

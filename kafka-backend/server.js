@@ -29,6 +29,8 @@ let getuser = require("./services/UserProfile/getuser");
 let updateuser = require("./services/UserProfile/updateuser");
 let image = require("./services/UserProfile/images");
 let getallusers = require("./services/createGroup/getallusers");
+let addgroup = require("./services/createGroup/addgroup");
+
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -92,3 +94,5 @@ handleTopicRequest("getuser", getuser);
 handleTopicRequest("updateuser", updateuser);
 handleTopicRequest("image", image);
 handleTopicRequest("getallusers", getallusers);
+handleTopicRequest("addgroup", addgroup);
+

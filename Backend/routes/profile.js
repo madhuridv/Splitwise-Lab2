@@ -46,7 +46,12 @@ router.post("/user", (req, res) => {
         "Content-Type": "text/plain",
       });
       res.end("SAVE_FAILED");
-    } else {
+    } else if (result === 299) {
+			res.writeHead(299, {
+				"Content-Type": "text/plain",
+			});
+			res.end("EMAIL_EXIST");
+		}else {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });

@@ -52,25 +52,6 @@ router.post("/:user_id", (req, res) => {
         }
       }
     );
-
-    // if (!err) {
-    //   let imageSql = `UPDATE splitwise.users SET user_image = '${req.file.filename}' WHERE id = ${req.params.user_id}`;
-    //   console.log(req.file.filename);
-    //   pool.query(imageSql, (err, result) => {
-    //     if (err) {
-    //       res.writeHead(500, {
-    //         "Content-Type": "text/plain",
-    //       });
-    //       res.end("Database Error");
-    //     }
-    //   });
-    //   res.writeHead(200, {
-    //     "Content-Type": "text/plain",
-    //   });
-    //   res.end(req.file.filename);
-    // } else {
-    //   console.log("Error!" +  err);
-    //  }
   });
 });
 

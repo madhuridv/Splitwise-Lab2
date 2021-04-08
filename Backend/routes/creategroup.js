@@ -3,29 +3,26 @@ const router = express();
 const kafka = require("../kafka/client");
 
 router.post("/addgroup", (req, res) => {
-  console.log("inside post create group backend");
-  let groupMem = req.body.members;
-  let list = groupMem.join(",");
+  console.log("inside postmethod for create group backend");
+  console.log("req.body", req.body);
 
-  let sql = `CALL insertGroupLoop('${req.body.groupname}','${req.body.user_id}','${list}')`;
-  pool.query(sql, (err, result) => {
-    if (err) {
+  kafka.make_request("addgroup", req.body, (err, result) => {
+    console.log("group details:", result);
+    if (result === 500) {
       res.writeHead(500, {
         "Content-Type": "text/plain",
       });
-      res.end("Error in Data");
-    }
-    console.log("result is:", result[0][0].status);
-    if (result && result.length > 0 && result[0][0].status === "GROUP_ADDED") {
+      res.end("SERVER_ERROR");
+    } else if (result === 299) {
+      res.writeHead(299, {
+        "Content-Type": "text/plain",
+      });
+      res.end("GROUP_EXISTS");
+    } else {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
-      res.end(result[0][0].status);
-    } else {
-      res.writeHead(400, {
-        "Content-Type": "text/plain",
-      });
-      res.end(result[0][0].status);
+      res.end("GROUP_ADDED");
     }
   });
 });
@@ -51,21 +48,5 @@ router.get("/getUser", (req, res) => {
       res.end(JSON.stringify(result));
     }
   });
-  // let sql = `select distinct id,username,email from splitwise.users`;
-  // pool.query(sql, (err, result) => {
-  //   if (err) {
-  //     res.writeHead(500, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end("Error in Data");
-  //   }
-  //   console.log("result is:", result);
-  //   if (result && result.length) {
-  //     res.writeHead(200, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end(JSON.stringify(result));
-  //   }
-  // });
 });
 module.exports = router;
