@@ -30,18 +30,18 @@ class UserProfile extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user) {
-      var { user } = nextProps;
+    if (nextProps.userProfile) {
+      var { userProfile } = nextProps;
 
       var userData = {
-        user_id: user._id || this.state.user_id,
-        name: user.username || this.state.name,
-        email: user.email || this.state.email,
-        phone_number: user.phone_number || this.state.phone_number,
-        user_image: user.user_image || this.state.user_image,
-        currency: user.currency || this.state.currency,
-        user_language: user.language || this.state.language,
-        timezone: user.timezone || this.state.timezone,
+        user_id: userProfile._id || this.state.user_id,
+        name: userProfile.username || this.state.name,
+        email: userProfile.email || this.state.email,
+        phone_number: userProfile.phone_number || this.state.phone_number,
+        user_image: userProfile.user_image || this.state.user_image,
+        currency: userProfile.currency || this.state.currency,
+        user_language: userProfile.language || this.state.language,
+        timezone: userProfile.timezone || this.state.timezone,
       };
 
       this.setState(userData);
@@ -245,11 +245,11 @@ class UserProfile extends Component {
 UserProfile.propTypes = {
   getUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  userProfile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  user: state.userProfile.user,
+  userProfile: state.userProfile.userProfile,
 });
 
 export default connect(mapStateToProps, { getUser, updateUser })(UserProfile);

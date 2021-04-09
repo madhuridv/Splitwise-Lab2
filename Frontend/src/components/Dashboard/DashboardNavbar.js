@@ -53,39 +53,3 @@ class DashboardHeader extends Component {
 }
 
 export default connect(null, { userLogout })(DashboardHeader);
-
-// const DashHeader = (props) => {
-
-//   return (
-//     <nav className="DashboardNav fixed-top">
-//       <NavLink to="/Dashboard">
-//         <h2 className="landing-name">
-//           <b>Splitwise</b>
-//         </h2>
-//       </NavLink>
-
-//       <div className="Dashfloat">
-//         <NavLink to="/login">
-//           <button
-//             className="logoutbtn"
-//             onClick={() => {
-//               localStorage.removeItem("jwtToken");
-//             }}
-//           >
-//             Log Out
-//           </button>
-//         </NavLink>
-
-//         {console.log("inside DashHeader")}
-
-//         <img
-//           className="picture"
-//           src={require("../../images/profile_icon.png")}
-//           alt=""
-//           srcset="Man"
-//         />
-//         {/* <label htmlFor="">{props.user.username}</label> */}
-//       </div>
-//     </nav>
-//   );
-// };

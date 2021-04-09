@@ -6,6 +6,7 @@ import { Multiselect } from "multiselect-react-dropdown";
 import { getAllUsers, addGroup } from "../actions/createGroupActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Redirect } from "react-router";
 
 class CreateGroup extends Component {
   constructor(props) {
@@ -15,8 +16,15 @@ class CreateGroup extends Component {
       user_id: localStorage.getItem("user_id"),
       groupname: "",
       userData: [],
-      //userData: {},
       selected: [],
+      selectedValue: [
+        {
+          _id: localStorage.getItem("user_id"),
+          email: localStorage.getItem("email_id"),
+          name: localStorage.getItem("username"),
+        },
+      ],
+      groupCreatedFlag: 0,
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -28,15 +36,15 @@ class CreateGroup extends Component {
     console.log("selected", this.state.selected);
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllUsers();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps.user", nextProps.user);
+    console.log("nextProps.user", nextProps.allUsers);
 
     this.setState({
-      userData: this.state.userData.concat(nextProps.user),
+      userData: this.state.userData.concat(nextProps.allUsers),
     });
     console.log("userdata:", this.state.userData);
   }
@@ -94,6 +102,9 @@ class CreateGroup extends Component {
 
     console.log("groupData is :", groupData);
     this.props.addGroup(groupData);
+    this.setState({
+      groupCreatedFlag: 1,
+    });
   };
 
   onChange = (e) => {
@@ -103,15 +114,29 @@ class CreateGroup extends Component {
   };
   render() {
     var imageSrc;
-    //let details = this.state.userData;
+    let redirectVar = null;
     let details = this.state.userData;
     console.log("details", details);
+    console.log(
+      "group creation status:",
+      this.props.createGroupStatus,
+      "flag: ",
+      this.state.groupCreatedFlag
+    );
+    if (
+      this.props.createGroupStatus === "GROUP_ADDED" &&
+      this.state.groupCreatedFlag
+    ) {
+      console.log("Redirecting to MyGroups Page...");
+      redirectVar = <Redirect to="/mygroup" />;
+    }
 
     if (this.state) {
       imageSrc = `${backendServer}/images/${this.state.user_image}`;
     }
     return (
       <div className="container signup">
+        {redirectVar}
         <div className="col">
           <img
             className="img-fluid"
@@ -159,6 +184,7 @@ class CreateGroup extends Component {
                   <label>GROUP MEMBERS</label>
                   <Multiselect
                     options={details}
+                    selectedValues={this.state.selectedValue}
                     displayValue="email"
                     onSelect={this.onSelect}
                   />
@@ -183,11 +209,13 @@ class CreateGroup extends Component {
 CreateGroup.propTypes = {
   getAllUsers: PropTypes.func.isRequired,
   addGroup: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  allUsers: PropTypes.object.isRequired,
+  createGroupStatus: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  user: state.createGroup.user,
+  allUsers: state.createGroup.allUsers,
+  createGroupStatus: state.createGroup.createGroupStatus,
 });
 
 export default connect(mapStateToProps, { getAllUsers, addGroup })(CreateGroup);
