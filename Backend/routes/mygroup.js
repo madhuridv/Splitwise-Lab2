@@ -1,30 +1,49 @@
 const express = require("express");
 const router = express();
-const pool = require("../connection");
+const kafka = require("../kafka/client");
 
 //from mygroups page
 router.post("/getGroup", (req, res) => {
   console.log("inside getGroup backend");
-  const groupMember = req.body.groupMember;
+
   console.log("req.body : ", req.body);
-  let sql =
-    "select distinct groupName, isAccepted from splitwise.groupDetails where groupMembers=?";
-  console.log(sql);
-  pool.query(sql, [groupMember], (err, result) => {
-    if (err) {
+  kafka.make_request("getgroups", req.body, (err, result) => {
+    console.log("group details:", result);
+    if (result === 500) {
       res.writeHead(500, {
         "Content-Type": "text/plain",
       });
-      res.end("Error in Data");
-    }
-    console.log("Query result is:", result);
-    if (result && result.length) {
+      res.end("SERVER_ERROR");
+    } else if (result === 207) {
+      res.writeHead(207, {
+        "Content-Type": "text/plain",
+      });
+      res.end("NO_GROUPS");
+    } else {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
       res.end(JSON.stringify(result));
     }
   });
+  // let sql =
+  //   "select distinct groupName, isAccepted from splitwise.groupDetails where groupMembers=?";
+  // console.log(sql);
+  // pool.query(sql, [groupMember], (err, result) => {
+  //   if (err) {
+  //     res.writeHead(500, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     res.end("Error in Data");
+  //   }
+  //   console.log("Query result is:", result);
+  //   if (result && result.length) {
+  //     res.writeHead(200, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     res.end(JSON.stringify(result));
+  //   }
+  // });
 });
 
 router.post("/joingroup", (req, res) => {
@@ -65,14 +84,15 @@ router.post("/exitgroup", (req, res) => {
       res.end("Error in Data");
     }
     console.log("Query result is:", result);
-    if (result && result.length > 0 && result[0][0].status === "GROUP_DELETED") {
-     
-      
+    if (
+      result &&
+      result.length > 0 &&
+      result[0][0].status === "GROUP_DELETED"
+    ) {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
       res.end(result[0][0].status);
-      
     } else if (
       result &&
       result.length > 0 &&

@@ -4,12 +4,14 @@ const Schema = mongoose.Schema;
 const groupSchema = new Schema(
   {
     groupName: { type: String, required: true },
-    isAccepted: { type: String, default: 0 },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     groupMembers: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user",
+        },
+        isAccepted: { type: Number, default: 0 },
       },
     ],
   },

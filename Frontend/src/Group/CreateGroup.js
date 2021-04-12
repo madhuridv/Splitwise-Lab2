@@ -86,18 +86,31 @@ class CreateGroup extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    let user_id = this.state.user_id;
     console.log("selected array", this.state.selected);
-    let members = [];
+    // let members = [];
 
-    for (var i = 0; i < this.state.selected.length; i++) {
-      members[i] = this.state.selected[i]._id;
+    // for (var i = 0; i < this.state.selected.length; i++) {
+    //   members[i] = this.state.selected[i]._id;
+    // }
+    // console.log("members array:", members);
+
+    let groupObject = [];
+    let data = {};
+    const members = this.state.selected;
+    for (var i = 0; i < members.length; i++) {
+      data = {
+        _id: members[i]._id,
+        isAccepted: 0,
+      };
+      groupObject.push(data);
     }
-    console.log("members array:", members);
+    console.log(groupObject);
 
     const groupData = {
-      user_id: this.state.user_id,
-      groupname: this.state.groupname,
-      members: members,
+      createdBy: user_id,
+      groupName: this.state.groupname,
+      members: groupObject,
     };
 
     console.log("groupData is :", groupData);
@@ -115,6 +128,7 @@ class CreateGroup extends Component {
   render() {
     var imageSrc;
     let redirectVar = null;
+    let mygroupComp = null;
     let details = this.state.userData;
     console.log("details", details);
     console.log(
