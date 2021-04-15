@@ -5,7 +5,6 @@ const kafka = require("../kafka/client");
 //from mygroups page
 router.post("/getGroup", (req, res) => {
   console.log("inside getGroup backend");
-
   console.log("req.body : ", req.body);
   kafka.make_request("getgroups", req.body, (err, result) => {
     console.log("group details:", result);
@@ -26,46 +25,23 @@ router.post("/getGroup", (req, res) => {
       res.end(JSON.stringify(result));
     }
   });
-  // let sql =
-  //   "select distinct groupName, isAccepted from splitwise.groupDetails where groupMembers=?";
-  // console.log(sql);
-  // pool.query(sql, [groupMember], (err, result) => {
-  //   if (err) {
-  //     res.writeHead(500, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end("Error in Data");
-  //   }
-  //   console.log("Query result is:", result);
-  //   if (result && result.length) {
-  //     res.writeHead(200, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end(JSON.stringify(result));
-  //   }
-  // });
 });
 
 router.post("/joingroup", (req, res) => {
-  console.log("inside jongroup backend");
-  const groupMember = req.body.groupMember;
-  console.log("groupMember", groupMember);
+  console.log("inside join groups backend");
   console.log("req.body : ", req.body);
-  let sql = `CALL acceptInvite('${req.body.groupName}','${groupMember}')`;
-  console.log(sql);
-  pool.query(sql, [groupMember], (err, result) => {
-    if (err) {
+  kafka.make_request("joingroup", req.body, (err, result) => {
+    console.log("join group details:", result);
+    if (result === 500) {
       res.writeHead(500, {
         "Content-Type": "text/plain",
       });
-      res.end("Error in Data");
-    }
-    console.log("Query result is:", result);
-    if (result && result.length) {
+      res.end("SERVER_ERROR");
+    } else {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
-      res.end(JSON.stringify(result));
+      res.end("JOINED_GROUP");
     }
   });
 });

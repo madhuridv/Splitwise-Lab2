@@ -9,6 +9,7 @@ const { secret } = require("../utils/config");
 auth();
 
 router.post("/", (req, res) => {
+  console.log("inside login backend");
   kafka.make_request("user_login", req.body, (err, result) => {
     console.log("result is:", result);
     if (err) {

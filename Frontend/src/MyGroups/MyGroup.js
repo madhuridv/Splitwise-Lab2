@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import "../styles/signup.css";
 import backendServer from "../webConfig";
 import axios from "axios";
-import { getAllGroups } from "../actions/myGroupActions";
+import { getAllGroups, joinGroup } from "../actions/myGroupActions";
 import PropTypes from "prop-types";
 
 export class MyGroup extends Component {
@@ -46,23 +46,16 @@ export class MyGroup extends Component {
   };
 
   //to change the isAccepted status true
-  onJoinClick = (gName) => {
-    console.log(gName);
-    const groupData = { groupName: gName, groupMember: this.state.user_id };
-    console.log("groupData", groupData);
-    axios.defaults.withCredentials = true;
-    axios
-      .post(`${backendServer}/mygroup/joingroup`, groupData)
-      .then((response) => {
-        console.log("Response after Axios call", response);
-        if (response.status == 200 && response.data === "JOINED_GROUP") {
-          alert("Joined group successfully!");
-          window.location.reload(false);
-        }
-      })
-      .catch((error) => {
-        console.log("error occured while connecting to backend:", error);
-      });
+  onJoinClick = (gId, gName) => {
+    const groupData = {
+      groupId: gId,
+      groupName: gName,
+      groupMember: this.state.user_id,
+    };
+    const memData = { groupMember: this.state.user_id };
+    console.log("join group data:", groupData);
+    this.props.joinGroup(groupData);
+    this.groupLoad(memData);
   };
 
   onLeaveClick = (gName) => {
@@ -130,7 +123,7 @@ export class MyGroup extends Component {
                       group.groupMembers[0].isAccepted === 0 ? (
                         <div
                           className="list-group list-group-horizontal"
-                          key={group.groupName}
+                          key={group._id}
                         >
                           <Link
                             className="list-group-item list-group-item-action"
@@ -143,7 +136,9 @@ export class MyGroup extends Component {
                           <span>
                             <button
                               className="btn btn-outline-success my-2 my-sm-0"
-                              onClick={() => this.onJoinClick(group.groupName)}
+                              onClick={() =>
+                                this.onJoinClick(group._id, group.groupName)
+                              }
                             >
                               Accept
                             </button>
@@ -152,7 +147,7 @@ export class MyGroup extends Component {
                       ) : (
                         <div
                           className="list-group list-group-horizontal"
-                          key={group.groupName}
+                          key={group._id}
                         >
                           <Link
                             className="list-group-item list-group-item-action"
@@ -192,4 +187,4 @@ const mapStateToProps = (state) => ({
   allGroups: state.myGroups.allGroups,
   JoinStatus: state.myGroups.JoinStatus,
 });
-export default connect(mapStateToProps, { getAllGroups })(MyGroup);
+export default connect(mapStateToProps, { getAllGroups, joinGroup })(MyGroup);

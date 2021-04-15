@@ -31,8 +31,7 @@ let image = require("./services/UserProfile/images");
 let getallusers = require("./services/createGroup/getallusers");
 let addgroup = require("./services/createGroup/addgroup");
 let getgroups = require("./services/myGroups/getGroups");
-
-
+let joingroup = require("./services/myGroups/joingroup");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -98,5 +97,4 @@ handleTopicRequest("image", image);
 handleTopicRequest("getallusers", getallusers);
 handleTopicRequest("addgroup", addgroup);
 handleTopicRequest("getgroups", getgroups);
-
-
+handleTopicRequest("joingroup", joingroup);

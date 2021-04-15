@@ -128,7 +128,7 @@ class CreateGroup extends Component {
   render() {
     var imageSrc;
     let redirectVar = null;
-    let mygroupComp = null;
+   
     let details = this.state.userData;
     console.log("details", details);
     console.log(
