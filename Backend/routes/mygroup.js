@@ -84,27 +84,41 @@ router.post("/exitgroup", (req, res) => {
 
 //from show groups page
 router.post("/getmembers", (req, res) => {
-  console.log("inside get Members");
+  console.log("inside get Members backend");
   const gName = req.body.gName;
   console.log("gName", gName);
   console.log("req.body : ", req.body);
-  let sql = `select groupMembers from splitwise.groupDetails where groupName=?`;
-  console.log(sql);
-  pool.query(sql, [gName], (err, result) => {
-    if (err) {
+  kafka.make_request("getgroupmembers", req.body, (err, result) => {
+    console.log("group members are:", result);
+    if (result === 500) {
       res.writeHead(500, {
         "Content-Type": "text/plain",
       });
-      res.end("Error in Data");
-    }
-    console.log("Query result is:", result);
-    if (result && result.length) {
+      res.end("SERVER_ERROR");
+    } else {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
       res.end(JSON.stringify(result));
     }
   });
+  // let sql = `select groupMembers from splitwise.groupDetails where groupName=?`;
+  // console.log(sql);
+  // pool.query(sql, [gName], (err, result) => {
+  //   if (err) {
+  //     res.writeHead(500, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     res.end("Error in Data");
+  //   }
+  //   console.log("Query result is:", result);
+  //   if (result && result.length) {
+  //     res.writeHead(200, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     res.end(JSON.stringify(result));
+  //   }
+  // });
 });
 
 module.exports = router;

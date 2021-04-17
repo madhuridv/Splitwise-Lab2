@@ -27,21 +27,39 @@ function AddExpense(props) {
     e.preventDefault();
 
     console.log(Object.values(description));
-    // console.log(props.groupData.groupName)
+    let user_id = localStorage.getItem("user_id");
+    let data = {
+      paidBy: user_id,
+      expDesc: Object.values(description)[0],
+      amount: Object.values(amount)[0],
+    };
+    let transactionObj = [];
+    let transactionData = {};
+    const members = props.groupData.groupMembers;
+
+    console.log("members", members);
+    let length = members.length;
+    for (var i = 0; i < length; i++) {
+      if (members[i] === user_id) {
+        continue;
+      } else {
+        transactionData = {
+          payableTo: user_id,
+          borrower: members[i],
+          amountPerPerson: Object.values(amount)[0] / length,
+        };
+      }
+      transactionObj.push(transactionData);
+    }
+    console.log("transaction", transactionObj);
 
     const expenseData = {
-      description: Object.values(description)[0],
-      amount: Object.values(amount)[0],
       groupName: props.groupData.groupName,
       groupMembers: props.groupData.groupMembers,
-      addedBy: localStorage.getItem("user_id"), //email
+      expense: data,
+      transaction: transactionObj,
+      entryType: "Expense Added",
     };
-    // const expenseData = {
-    //   description: Object.values(description)[0],
-    //   amount: Object.values(amount)[0],
-    //   groupName: props.groupName,
-    //   addedBy: localStorage.getItem("email_id"), //email
-    // };
 
     console.log("expense data to post", expenseData);
 
