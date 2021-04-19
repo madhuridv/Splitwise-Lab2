@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DashboardNavbar from "../DashboardNavbar";
 import axios from "axios";
 import backendServer from "../../../webConfig";
+import { Pagination } from "react-bootstrap";
 
 class RecentActivity extends Component {
   constructor(props) {
@@ -10,8 +11,77 @@ class RecentActivity extends Component {
       activity: [],
       user_id: localStorage.getItem("user_id"),
       settle: [],
+      curPage: 1,
+      pageSize: "",
+      act: [
+        {
+          userName: "Madhuri",
+          expenseDescription: "Party",
+          groupName: "Dressess",
+        },
+        {
+          userName: "Manish",
+          expenseDescription: "Chocolate",
+          groupName: "Dressess",
+        },
+        {
+          userName: "Rachel",
+          expenseDescription: "Cosmetics",
+          groupName: "Bridal shower",
+        },
+        {
+          userName: "Ross",
+          expenseDescription: "Beer",
+          groupName: "Bachelor's Party",
+        },
+        {
+          userName: "Chandler",
+          expenseDescription: "Chicken",
+          groupName: "Bachelor's Party",
+        },
+        {
+          userName: "Monica",
+          expenseDescription: "Cake",
+          groupName: "Bridal shower",
+        },
+        {
+          userName: "Kramer",
+          expenseDescription: "golf",
+          groupName: "sports",
+        },
+        {
+          userName: "Jerry",
+          expenseDescription: "Show",
+          groupName: "sports",
+        },
+        {
+          userName: "Rachel",
+          expenseDescription: "Ralpf",
+          groupName: "Dressess",
+        },
+        {
+          userName: "Elaine",
+          expenseDescription: "Grocery",
+          groupName: "Monthly",
+        },
+      ],
     };
   }
+  onPage = (e) => {
+    console.log("In pagination");
+    console.log(e.target);
+    console.log(e.target.text);
+    this.setState({
+      curPage: e.target.text,
+    });
+  };
+
+  OnChange = (e) => {
+    console.log("Inside Onchange");
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
   componentDidMount() {
     document.title = "Recent Activiy";
     console.log(this.state.user_id);
@@ -43,7 +113,39 @@ class RecentActivity extends Component {
       });
   }
   render() {
+    let paginationItemsTag = [];
+    let items = this.state.act;
+    console.log("Total items:", items.length);
+    let count = 1;
+    if (items.length % 4 == 0) {
+      count = items.length / 4;
+    } else {
+      count = items.length / 4 + 1;
+    }
+    let active = this.state.curPage;
+    for (let number = 1; number <= count; number++) {
+      paginationItemsTag.push(
+        <Pagination.Item key={number} active={number === active}>
+          {number}
+        </Pagination.Item>
+      );
+    }
+    console.log("paginate");
+    let start = 4 * (this.state.curPage - 1);
+    let end = start + 4;
+    console.log("start: ", start, ", end: ", end);
+    let displayitems = [];
+    if (end > items.length) {
+      end = items.length;
+    }
+    for (start; start < end; start++) {
+      displayitems.push(items[start]);
+    }
+    console.log("render");
+    console.log("displayitems", displayitems);
+
     let activityList = this.state.activity;
+    let actList = this.state.act;
     console.log(activityList);
     let settleList = this.state.settle;
     let obj = [...activityList, ...settleList];
@@ -62,6 +164,7 @@ class RecentActivity extends Component {
                 <div className="row  align-items-center">
                   <div className="col">
                     <h3>Recent Activities</h3>
+
                     {settleList.map((set) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
@@ -72,7 +175,7 @@ class RecentActivity extends Component {
                       </div>
                     ))}
 
-                    {activityList.map((act) => (
+                    {displayitems.map((act) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
                           <li className="list-group-item">
@@ -84,7 +187,17 @@ class RecentActivity extends Component {
                     ))}
                   </div>
                 </div>
-                <div></div>
+                <center>
+                  <br />
+                  <br />
+                  <Pagination
+                    onClick={this.onPage}
+                    style={{ display: "inline-flex" }}
+                  >
+                    {paginationItemsTag}
+                  </Pagination>
+                  
+                </center>
               </div>
             </div>
 

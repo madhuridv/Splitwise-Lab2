@@ -12,12 +12,10 @@ function handle_request(msg, callback) {
       members:msg.groupMembers,
       groupName: msg.groupName,
       expense: msg.expense,
-      transaction: msg.transaction,
-      entryType: msg.entryType
+      transaction: msg.transaction, 
+      entryType: msg.entryType,
+      createdAt:$currentDate,
   })
-
-
-
   newExpense.save(newExpense, (err, result) => {
           if (err) {
             console.log("server error:", err);

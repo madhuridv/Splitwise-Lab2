@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import backendServer from "../webConfig";
 import expensePic from "../images/expense.png";
 import PropTypes from "prop-types";
-import { getGroupMembers } from "../actions/showGroupAction";
+import { getGroupMembers, getExpense } from "../actions/showGroupAction";
 
 //to show list of groups
 class ShowGroup extends Component {
@@ -16,6 +16,7 @@ class ShowGroup extends Component {
     this.state = {
       groupName: "",
       groupMembers: [],
+      accept: [],
       userEmail: localStorage.getItem("email_id"),
       recentExpense: [],
     };
@@ -26,23 +27,13 @@ class ShowGroup extends Component {
     this.setState({
       groupName: groupNameFromProps,
     });
-    console.log(groupNameFromProps);
+    console.log("groupNameFromProps", groupNameFromProps);
 
     const groupData = { gName: groupNameFromProps };
     console.log("groupData: ", groupData);
     this.props.getGroupMembers(groupData);
-    // axios.defaults.withCredentials = true;
-    // axios
-    //   .post(`${backendServer}/mygroup/getmembers`, groupData)
-    //   .then((response) => {
-    //     console.log("response from Axios query", response.data);
-    //     this.setState({
-    //       groupMembers: this.state.groupMembers.concat(response.data),
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error occured while connecting to backend:", error);
-    //   });
+    this.props.getExpense(groupNameFromProps);
+
     // axios
     //   .post(`${backendServer}/expense/getexpensedetails`, {
     //     groupNameFromProps,
@@ -58,17 +49,16 @@ class ShowGroup extends Component {
     //   });
   }
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps.allMembers", nextProps.allMembers.groupMembers);
+    //console.log("nextProps.allMembers", nextProps.allMembers.groupMembers);
 
-    // this.setState({
-    //   groupMembers: this.state.groupMembers.concat(
-    //     nextProps.allMembers.groupMembers
-    //   ),
-    // });
     this.setState({
-      groupMembers: nextProps.allMembers.groupMembers.map((a) => a._id),
+      groupMembers: this.state.groupMembers.concat(
+        nextProps.allMembers.groupMembers.reduce(
+          (a, o) => (o.isAccepted == 1 && a.push(o._id), a),
+          []
+        )
+      ),
     });
-    console.log("group Members Data:", this.state.groupMembers);
   }
 
   render() {
@@ -77,6 +67,8 @@ class ShowGroup extends Component {
     let expense = obj.sort((a, b) => a.Date - b.Date);
     //console.log("expense is :", expense);
     let gName = this.state.groupName;
+
+    console.log("group Members Data:", this.state.groupMembers);
 
     console.log("groupdata to sent to addexpense", this.state);
     return (
@@ -132,9 +124,12 @@ class ShowGroup extends Component {
 }
 ShowGroup.propTypes = {
   getGroupMembers: PropTypes.func.isRequired,
+  getExpense: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   allMembers: state.showGroups.allMembers,
 });
 
-export default connect(mapStateToProps, { getGroupMembers })(ShowGroup);
+export default connect(mapStateToProps, { getGroupMembers, getExpense })(
+  ShowGroup
+);

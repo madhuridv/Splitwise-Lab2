@@ -39,13 +39,13 @@ class DashboardHeader extends Component {
           <div className="DashHeader">
             <h3>Dashboard</h3>
             <BrowserRouter>
-            <Link
-              className="btn float-right"
-              style={{ marginRight: "10px" }}
-              to={`/recentactivity`}
-            >
-              Recent Activity
-            </Link>
+              <a
+                href={`/recentactivity`}
+                className="btn float-right"
+                style={{ marginRight: "10px" }}
+              >
+                Recent Activity
+              </a>
             </BrowserRouter>
             <button
               className="btn float-right settle"

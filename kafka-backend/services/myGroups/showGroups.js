@@ -7,7 +7,8 @@ function handle_request(msg, callback) {
   );
   console.log("Message is: ", msg);
   Groups.findOne(
-    { groupName: msg.gName },
+    { groupName: msg.gName, "groupMembers.isAccepted": 1 },
+
     { _id: 1, groupMembers: 1 },
     (err, allMembers) => {
       console.log("get group members result is:", allMembers);

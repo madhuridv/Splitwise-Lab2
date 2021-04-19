@@ -11,7 +11,7 @@ import Profile from "./Profile/Profile";
 import Group from "./Group/Group";
 import MyGroup from "./MyGroups/MyGroup";
 import ShowGroups from "./MyGroups/ShowGroup";
-// import RecentActivity from "./components/Dashboard/RecentActivity/RecentActivity";
+import RecentActivity from "./components/Dashboard/RecentActivity/RecentActivity";
 
 class App extends Component {
   render() {
@@ -28,7 +28,7 @@ class App extends Component {
                <Route path="/creategroup" component={Group} />
               <Route path="/mygroup" component={MyGroup} />
               <Route path="/groups/:groupName" component={ShowGroups} />
-              {/*<Route path="/recentactivity" component={RecentActivity} /> */}
+              <Route path="/recentactivity" component={RecentActivity} />
             </Switch>
           </BrowserRouter>
         </div>

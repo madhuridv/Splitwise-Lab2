@@ -8,3 +8,7 @@ export const ADD_GROUP = "ADD_GROUP";
 export const GET_ALL_GROUPS = "GET_ALL_GROUPS";
 export const JOIN_GROUP = "JOIN_GROUP";
 export const GET_MEMBERS = "GET_MEMBERS";
+export const GET_EXPENSE = "GET_EXPENSE";
+
+
+

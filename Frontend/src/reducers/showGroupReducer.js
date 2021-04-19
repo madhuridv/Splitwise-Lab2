@@ -1,8 +1,7 @@
-import { GET_MEMBERS} from "../actions/types";
+import { GET_MEMBERS, GET_EXPENSE } from "../actions/types";
 
 const initialState = {
   allMembers: {},
- 
 };
 
 export default function myGroupsReducer(state = initialState, action) {
@@ -11,13 +10,12 @@ export default function myGroupsReducer(state = initialState, action) {
       return {
         ...state,
         allMembers: action.payload,
-       
       };
-    // case JOIN_GROUP:
-    //   return {
-    //     ...state,
-    //     JoinStatus: action.payload,
-    //   };
+    case GET_EXPENSE:
+      return {
+        ...state,
+        allMembers: action.payload,
+      };
     default:
       return state;
   }

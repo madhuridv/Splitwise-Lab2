@@ -143,9 +143,8 @@ li {
 }
 
 .showGroup {
-
   margin-top: 5%;
-  height: 100vh;
+  /* height: 100vh; */
   width: 602px;
   background: #eeeeee;
   margin-left: auto;
