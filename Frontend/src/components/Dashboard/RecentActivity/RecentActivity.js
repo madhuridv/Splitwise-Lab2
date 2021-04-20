@@ -12,7 +12,7 @@ class RecentActivity extends Component {
       user_id: localStorage.getItem("user_id"),
       settle: [],
       curPage: 1,
-      pageSize: "",
+      pageSize: 0,
       act: [
         {
           userName: "Madhuri",
@@ -36,7 +36,7 @@ class RecentActivity extends Component {
         },
         {
           userName: "Chandler",
-          expenseDescription: "Chicken",
+          expenseDescription: "Ice cubes",
           groupName: "Bachelor's Party",
         },
         {
@@ -113,36 +113,37 @@ class RecentActivity extends Component {
       });
   }
   render() {
-    let paginationItemsTag = [];
-    let items = this.state.act;
-    console.log("Total items:", items.length);
-    let count = 1;
-    if (items.length % 4 == 0) {
-      count = items.length / 4;
-    } else {
-      count = items.length / 4 + 1;
-    }
-    let active = this.state.curPage;
-    for (let number = 1; number <= count; number++) {
-      paginationItemsTag.push(
-        <Pagination.Item key={number} active={number === active}>
-          {number}
-        </Pagination.Item>
-      );
-    }
-    console.log("paginate");
-    let start = 4 * (this.state.curPage - 1);
-    let end = start + 4;
-    console.log("start: ", start, ", end: ", end);
-    let displayitems = [];
-    if (end > items.length) {
-      end = items.length;
-    }
-    for (start; start < end; start++) {
-      displayitems.push(items[start]);
-    }
-    console.log("render");
-    console.log("displayitems", displayitems);
+    // let paginationItemsTag = [];
+    // let items = this.state.act;
+    // console.log("page size:",this.state.pageSize);
+    // console.log("Total items:", items.length);
+    // let count = 1;
+    // if (items.length % 4 == 0) {
+    //   count = items.length / 5;
+    // } else {
+    //   count = items.length / 5+ 1;
+    // }
+    // let active = this.state.curPage;
+    // for (let number = 1; number <= count; number++) {
+    //   paginationItemsTag.push(
+    //     <Pagination.Item key={number} active={number === active}>
+    //       {number}
+    //     </Pagination.Item>
+    //   );
+    // }
+    // console.log("paginate");
+    // let start = 5 * (this.state.curPage - 1);
+    // let end = start + 5;
+    // console.log("start: ", start, ", end: ", end);
+    // let displayitems = [];
+    // if (end > items.length) {
+    //   end = items.length;
+    // }
+    // for (start; start < end; start++) {
+    //   displayitems.push(items[start]);
+    // }
+    // console.log("render");
+    // console.log("displayitems", displayitems);
 
     let activityList = this.state.activity;
     let actList = this.state.act;
@@ -175,7 +176,7 @@ class RecentActivity extends Component {
                       </div>
                     ))}
 
-                    {displayitems.map((act) => (
+                    {actList.map((act) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
                           <li className="list-group-item">
@@ -190,13 +191,20 @@ class RecentActivity extends Component {
                 <center>
                   <br />
                   <br />
-                  <Pagination
+                  {/* <Pagination
                     onClick={this.onPage}
                     style={{ display: "inline-flex" }}
                   >
                     {paginationItemsTag}
-                  </Pagination>
-                  
+                  </Pagination> */}
+                  &nbsp;&nbsp;
+                  <span>
+                    <select onChange={this.onChange}>
+                      <option>2</option>
+                      <option>5</option>
+                      <option>10</option>
+                    </select>
+                  </span>
                 </center>
               </div>
             </div>

@@ -25,18 +25,18 @@
   height: 49px;
 }
 .content-block {
-  font : 18px;
+  font: 18px;
   float: left;
   max-width: 360px;
   padding-left: 0px 0px 0px 15px;
 }
-.form-stacked{
--webkit-text-size-adjust: 100%;
-color-scheme: light only;
-color: #333333;
-text-rendering: optimizeLegibility;
-font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-line-height: 36px;
-font-size: 18px;
-margin: 0 0 18px;
+.form-stacked {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light only;
+  color: #333333;
+  text-rendering: optimizeLegibility;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  line-height: 36px;
+  font-size: 18px;
+  margin: 0 0 18px;
 }

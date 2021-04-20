@@ -3,24 +3,31 @@ const Schema = mongoose.Schema;
 
 const expenseSchema = new Schema(
   {
-    members: { type: Array },
+    groupId: { type: mongoose.Schema.Types.ObjectId, ref: "group" },
     groupName: { type: String },
-    expense: [
+    exp: [
       {
         paidBy: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
         expDesc: { type: String },
         amount: { type: Number },
+        createdAt: { type: Date },
+        comments: [
+          {
+            message: { type: String },
+            userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+            username: { type: String },
+            msgCreatedAt: { type: Date },
+          },
+        ],
       },
     ],
-    transaction: [
+    groupTransaction: [
       {
-        payableTo: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
         borrower: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-        amountPerPerson: { type: Number },
+        payableTo: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+        pendingAmt: { type: Number },
       },
     ],
-    createdAt: { type: Date },
-    entryType: { type: String },
   },
   {
     versionKey: false,

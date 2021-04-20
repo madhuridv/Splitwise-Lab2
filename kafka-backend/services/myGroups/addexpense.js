@@ -3,28 +3,64 @@ const Users = require("../../Models/userModel");
 const Groups = require("../../Models/groupModel");
 const Expense = require("../../Models/expenseModel");
 
-function handle_request(msg, callback) {
+async function handle_request(msg, callback) {
   console.log("-----------------------Add expense----------------------");
   console.log("Message received for create group kafka backend is:", msg);
 
-  let newExpense = new Expense({
+  let expResult = await Expense.find({ groupName: msg.groupName });
+  console.log("expResult", expResult);
+  let expenseObj = {
+    paidBy: msg.paidBy,
+    expDesc: msg.description,
+    amount: msg.amount,
+    createdAt: Date.now()
+  };
+  if (expResult.length > 0 && expResult) {
+    console.log(expResult[0].exp);
+    //push expense entry
+    expResult[0].exp.push(expenseObj);
 
-      members:msg.groupMembers,
+    let updated = await expResult[0].save();
+
+    if (!updated) {
+      callback(null, 500);
+    } else {
+      callback(null, 200);
+    }
+  } //first time to create entry
+  else {
+    let expenseData = new Expense({
       groupName: msg.groupName,
-      expense: msg.expense,
-      transaction: msg.transaction, 
-      entryType: msg.entryType,
-      createdAt:$currentDate,
-  })
-  newExpense.save(newExpense, (err, result) => {
-          if (err) {
-            console.log("server error:", err);
-            callback(null, 500);
-          } else {
-            console.log("Expense Added Successfully!");
-            callback(null, 200);
-          }
-        });
+      exp: [],
+      groupTransaction: [],
+    });
+
+    expenseData.exp.push(expenseObj);
+
+    // groupMembers
+    // 	.filter((member) => {
+    // 		return member !== paidBy;
+    // 	})
+    // 	.forEach((mem) => {
+    // 		console.log(mem);
+    // 		transObj = {
+    // 			borrower: mem,
+    // 			payableTo: paidBy,
+    // 			pendingAmt: amount / groupStrength,
+    // 		};
+    // 		//transArray.push(transObj);
+    // 		expenseData.groupTransaction.push(transObj);
+    // 	});
+
+    console.log("expenseData is: ", expenseData);
+
+    const saveExp = await expenseData.save();
+    if (!saveExp) {
+      callback(null, 500);
+    } else {
+      callback(null, 200);
+    }
+  }
 }
 
 exports.handle_request = handle_request;

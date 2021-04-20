@@ -1,74 +1,75 @@
 const express = require("express");
 const router = express();
 const kafka = require("../kafka/client");
+//const Expense = require("../models/expense");
+//const Users = require("../models/userModel");
 
-router.post("/getexpensedetails", (req, res) => {
+router.post("/getexpensedetails", async (req, res) => {
   console.log("inside get expense");
   console.log("req.body.groupNameFromProps", req.body.groupNameFromProps);
+
   kafka.make_request("getexpense", req.body, (err, result) => {
-    console.log("expense details:", result);
-    // if (result === 500) {
-    //   res.writeHead(500, {
-    //     "Content-Type": "text/plain",
-    //   });
-    //   res.end("SERVER_ERROR");
-    // } else if (result === 207) {
-    //   res.writeHead(207, {
-    //     "Content-Type": "text/plain",
-    //   });
-    //   res.end("NO_EXPENSE");
-    // } else {
-    //   res.writeHead(200, {
-    //     "Content-Type": "text/plain",
-    //   });
-    //   res.end(JSON.stringify(result));
-    // }
+    console.log("resposnse status:", result);
+    console.log("result from kafka for get expense is", result);
+    if (result === 500) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("SERVER_ERROR");
+    } else if (result === 207) {
+      res.writeHead(207, {
+        "Content-Type": "text/plain",
+      });
+      res.end("NO_RECORD");
+    } else {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify(result));
+    }
   });
-  // let sql =
-  //   " select distinct expenseDescription,amount,groupName,u.username,DATE_FORMAT(e.createdAt,'%d-%b-%Y') as Date from splitwise.expense e join users u on u.id = e.addedBy where groupName=? order by e.createdAt desc";
+  //   let err = {};
+  //   let response = {};
+  // try{
+  //   let expDetail = await Expense.findOne({
+  //     groupName: req.body.groupNameFromProps,
+  //   });
 
-  // pool.query(sql, [groupName], (err, result) => {
-  //   if (err) {
-  //     res.writeHead(500, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end("Error in Data");
+  //   if (expDetail) {
+  //     await expDetail.populate({ path: "exp" }).execPopulate();
+  //     let data = [];
+  //     console.log("number of expenses per group:", expDetail.exp.length);
+  //     for (let i = 0; i < expDetail.exp.length; i++) {
+  //       let user = await Users.findById(expDetail.exp[i].paidBy);
+  //       if (!user) {
+  //         console.log("Data Error");
+  //         response.status = 500;
+  //         response.data = "Data error";
+  //       }
+
+  //       let schema = {
+  //         paidBy: user.username,
+  //         expDesc: expDetail.exp[i].expDesc,
+  //         amount: expDetail.exp[i].amount,
+  //       };
+  //       data.push(schema);
+  //     }
+  //     response.data = JSON.stringify(data);
+  //     console.log("response", response);
+  //     return callback(null, response);
+  //   }else {
+  //     response.status = 500;
+  //     response.data = "NO_RECORD";
+  //     return callback(null, response);
   //   }
-  //   console.log("Query result is:", result);
-  //   if (result && result.length) {
-  //     res.writeHead(200, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end(JSON.stringify(result));
+  // }
+  //   catch(error) {
+  //     console.log(error);
+  //     err.status = 500;
+  //     err.data = "Error in Data";
+  //     return callback(err, null);
   //   }
-  // });
 });
-
-//   router.post("/expense", (req, res) => {
-//     console.log("inside expense backend");
-//     console.log(req.body.description);
-//     let sql = `CALL insertExpense('${req.body.description}','${req.body.amount}','${req.body.groupName}','${req.body.addedBy}')`;
-
-//     pool.query(sql, (err, result) => {
-//       if (err) {
-//         res.writeHead(500, {
-//           "Content-Type": "text/plain",
-//         });
-//         res.end("Error in Data");
-//       }
-//       console.log("result is:", JSON.stringify(result));
-//       if (
-//         result &&
-//         result.length > 0 &&
-//         result[0][0].status === "EXPENSE_ADDED"
-//       ) {
-//         res.writeHead(200, {
-//           "Content-Type": "text/plain",
-//         });
-//         res.end(result[0][0].status);
-//       }
-//     });
-//   });
 
 router.post("/expense", async (req, res) => {
   console.log("inside Add expense");
@@ -77,6 +78,7 @@ router.post("/expense", async (req, res) => {
   const groupStrength = groupMembers.length;
   console.log("count of grpMembers", groupStrength);
   console.log("Data recieved from client to add expense : ", req.body);
+
   kafka.make_request("addexpense", req.body, (err, result) => {
     console.log("resposnse status:", result);
     if (result === 500) {
@@ -91,6 +93,76 @@ router.post("/expense", async (req, res) => {
       res.end("EXPENSE_ADDED");
     }
   });
+
+  // let expResult = await Expense.find({ groupName: req.body.groupName });
+  // console.log("expResult", expResult);
+  // let expenseObj = {
+  //   paidBy: req.body.paidBy,
+  //   expDesc: req.body.description,
+  //   amount: req.body.amount,
+  // };
+  // if (expResult.length > 0 && expResult) {
+  //   console.log(expResult[0].exp);
+  //   //push expense entry
+  //   expResult[0].exp.push(expenseObj);
+
+  //   let updated = await expResult[0].save();
+
+  //   if (!updated) {
+  //     res.writeHead(400, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     console.log("Error");
+  //     res.end("ERROR");
+  //   } else {
+  //     res.writeHead(200, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     console.log("EXPENSE_ADDED");
+  //     res.end("EXPENSE_ADDED");
+  //   }
+  // } //first time to create entry
+  // else {
+  //   let expenseData = new Expense({
+  //     groupName: req.body.groupName,
+  //     exp: [],
+  //     groupTransaction: [],
+  //   });
+
+  //   expenseData.exp.push(expenseObj);
+
+  //   // groupMembers
+  //   // 	.filter((member) => {
+  //   // 		return member !== paidBy;
+  //   // 	})
+  //   // 	.forEach((mem) => {
+  //   // 		console.log(mem);
+  //   // 		transObj = {
+  //   // 			borrower: mem,
+  //   // 			payableTo: paidBy,
+  //   // 			pendingAmt: amount / groupStrength,
+  //   // 		};
+  //   // 		//transArray.push(transObj);
+  //   // 		expenseData.groupTransaction.push(transObj);
+  //   // 	});
+
+  //   console.log("expenseData is: ", expenseData);
+
+  //   const saveExp = await expenseData.save();
+  //   if (!saveExp) {
+  //     res.writeHead(400, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     console.log("ERROR");
+  //     res.end("ERROR");
+  //   } else {
+  //     res.writeHead(200, {
+  //       "Content-Type": "text/plain",
+  //     });
+  //     console.log("EXPENSE_ADDED");
+  //     res.end("EXPENSE_ADDED");
+  //   }
+  // }
 });
 
 module.exports = router;

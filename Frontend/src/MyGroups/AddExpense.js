@@ -27,41 +27,55 @@ function AddExpense(props) {
     e.preventDefault();
 
     console.log(Object.values(description));
+    console.log("group data is", props.groupData);
     let user_id = localStorage.getItem("user_id");
-    let data = {
-      paidBy: user_id,
-      expDesc: Object.values(description)[0],
-      amount: Object.values(amount)[0],
-    };
-    let transactionObj = [];
-    let transactionData = {};
     const members = props.groupData.groupMembers;
 
-    console.log("members", members);
-    let length = members.length;
-    for (var i = 0; i < length; i++) {
-      if (members[i] === user_id) {
-        continue;
-      } else {
-        transactionData = {
-          payableTo: user_id,
-          borrower: members[i],
-          amountPerPerson: Object.values(amount)[0] / length,
-        };
-      }
-      transactionObj.push(transactionData);
-    }
-    console.log("transaction", transactionObj);
-
     const expenseData = {
+      description: Object.values(description)[0],
+      amount: Object.values(amount)[0],
+      //groupId: props.groupId,
       groupName: props.groupData.groupName,
-      groupMembers: props.groupData.groupMembers,
-      expense: data,
-      transaction: transactionObj,
-      entryType: "Expense Added",
+      groupMembers: members,
+      paidBy: user_id,
     };
 
-    console.log("expense data to post", expenseData);
+    console.log("expense data: ", expenseData);
+
+    // let data = {
+    //   paidBy: user_id,
+    //   expDesc: Object.values(description)[0],
+    //   amount: Object.values(amount)[0],
+    // };
+    // let transactionObj = [];
+    // let transactionData = {};
+    // const members = props.groupData.groupMembers;
+
+    // console.log("members", members);
+    // let length = members.length;
+    // for (var i = 0; i < length; i++) {
+    //   if (members[i] === user_id) {
+    //     continue;
+    //   } else {
+    //     transactionData = {
+    //       payableTo: user_id,
+    //       borrower: members[i],
+    //       amountPerPerson: Object.values(amount)[0] / length,
+    //     };
+    //   }
+    //   transactionObj.push(transactionData);
+    // }
+    // console.log("transaction", transactionObj);
+
+    // const expenseData = {
+    //   groupName: props.groupData.groupName,
+    //   groupMembers: props.groupData.groupMembers,
+    //   expense: data,
+    //   transaction: transactionObj,
+    //   entryType: "Expense Added",
+    // };
+
+    // console.log("expense data to post", expenseData);
 
     axios.defaults.withCredentials = true;
     axios

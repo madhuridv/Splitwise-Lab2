@@ -1,7 +1,28 @@
 const app = require("./app");
+const mongoose = require("mongoose");
 //const db = require("./connection");
 
 //db();
+const URI =
+  "mongodb+srv://madhuri:madhuri@cluster0.mgkdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+var options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  poolSize: 10,
+  bufferMaxEntries: 0,
+};
+const mongoConnection = async () => {
+  await mongoose.connect(URI, options, (err, res) => {
+    if (err) {
+      console.log("error:", err);
+    } else {
+      console.log("MongoDB connected");
+    }
+  });
+};
+
+mongoConnection();
 
 const login = require("./routes/login");
 const signup = require("./routes/signup");

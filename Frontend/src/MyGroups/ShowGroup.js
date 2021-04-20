@@ -32,33 +32,37 @@ class ShowGroup extends Component {
     const groupData = { gName: groupNameFromProps };
     console.log("groupData: ", groupData);
     this.props.getGroupMembers(groupData);
-    this.props.getExpense(groupNameFromProps);
+    // this.props.getExpense(groupNameFromProps);
 
-    // axios
-    //   .post(`${backendServer}/expense/getexpensedetails`, {
-    //     groupNameFromProps,
-    //   })
-    //   .then((response) => {
-    //     console.log("data is", response.data);
-    //     this.setState({
-    //       recentExpense: this.state.recentExpense.concat(response.data),
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error occured in axios post", error);
-    //   });
+    axios
+      .post(`${backendServer}/expense/getexpensedetails`, {
+        groupNameFromProps,
+      })
+      .then((response) => {
+        console.log("recent activity data is", response.data);
+        this.setState({
+          recentExpense: this.state.recentExpense.concat(response.data),
+        });
+      })
+      .catch((error) => {
+        console.log("error occured in axios post", error);
+      });
   }
   componentWillReceiveProps(nextProps) {
-    //console.log("nextProps.allMembers", nextProps.allMembers.groupMembers);
-
+    console.log("nextProps.allMembers", nextProps.allMembers);
     this.setState({
       groupMembers: this.state.groupMembers.concat(
-        nextProps.allMembers.groupMembers.reduce(
-          (a, o) => (o.isAccepted == 1 && a.push(o._id), a),
-          []
-        )
+        nextProps.allMembers.groupMembers
       ),
     });
+    // this.setState({
+    //   groupMembers: this.state.groupMembers.concat(
+    //     nextProps.allMembers.groupMembers.reduce(
+    //       (a, o) => (o.isAccepted == 1 && a.push(o._id), a),
+    //       []
+    //     )
+    //   ),
+    // });
   }
 
   render() {
@@ -103,10 +107,10 @@ class ShowGroup extends Component {
                             style={{ height: "fit-content" }}
                             alt="Expense"
                           /> */}
-                          {exp.expenseDescription}
+                          Expense : {exp.expDesc}
                         </p>
                         <small className="text-muted">
-                          {exp.username} paid ${exp.amount}
+                          {exp.paidBy} paid ${exp.amount}
                         </small>
                       </div>
                     ))}
@@ -130,6 +134,4 @@ const mapStateToProps = (state) => ({
   allMembers: state.showGroups.allMembers,
 });
 
-export default connect(mapStateToProps, { getGroupMembers, getExpense })(
-  ShowGroup
-);
+export default connect(mapStateToProps, { getGroupMembers })(ShowGroup);
