@@ -13,6 +13,7 @@ export class MyGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       search: "",
       groups: [],
       email: localStorage.getItem("email_id"),

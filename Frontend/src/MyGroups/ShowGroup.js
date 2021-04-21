@@ -14,14 +14,36 @@ class ShowGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isActive: false,
       groupName: "",
       groupMembers: [],
       accept: [],
       userEmail: localStorage.getItem("email_id"),
       recentExpense: [],
+      exp: [
+        {
+          paidBy: "Madhuri",
+          expDesc: "Party",
+          amount: "50",
+        },
+        {
+          paidBy: "Madhuri",
+          expDesc: "Party",
+          amount: "100",
+        },
+      ],
     };
   }
-
+  handleShow = () => {
+    this.setState({
+      isActive: true,
+    });
+  };
+  handleHide = () => {
+    this.setState({
+      isActive: false,
+    });
+  };
   componentDidMount() {
     const groupNameFromProps = this.props.match.params.groupName;
     this.setState({
@@ -69,6 +91,7 @@ class ShowGroup extends Component {
     //let expense = this.state.recentExpense;
     let obj = [...this.state.recentExpense];
     let expense = obj.sort((a, b) => a.Date - b.Date);
+    let exp1 = this.state.exp;
     //console.log("expense is :", expense);
     let gName = this.state.groupName;
 
@@ -102,11 +125,11 @@ class ShowGroup extends Component {
 
                         <p className="mb-1">
                           {" "}
-                          {/* <img
+                          <img
                             src={expensePic}
                             style={{ height: "fit-content" }}
                             alt="Expense"
-                          /> */}
+                          />
                           Expense : {exp.expDesc}
                         </p>
                         <small className="text-muted">
@@ -116,6 +139,7 @@ class ShowGroup extends Component {
                     ))}
                   </div>
                 </div>
+
               </div>
             </div>
 

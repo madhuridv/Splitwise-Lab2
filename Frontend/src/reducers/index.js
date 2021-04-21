@@ -7,6 +7,7 @@ import userProfileReducer from "./userProfileReducer";
 import createGroupReducer from "./createGroupReducer";
 import myGroupsReducer from "./myGroupReducer";
 import showGroupReducer from "./showGroupReducer";
+import dashboardReducer from "./dashboardReducer";
 
 export default combineReducers({
   login: loginReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   createGroup: createGroupReducer,
   myGroups: myGroupsReducer,
   showGroups: showGroupReducer,
+  dashboard: dashboardReducer,
 });

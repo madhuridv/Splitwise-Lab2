@@ -12,7 +12,7 @@ class RecentActivity extends Component {
       user_id: localStorage.getItem("user_id"),
       settle: [],
       curPage: 1,
-      pageSize: 0,
+      pageSize: 2,
       act: [
         {
           userName: "Madhuri",
@@ -79,7 +79,7 @@ class RecentActivity extends Component {
   OnChange = (e) => {
     console.log("Inside Onchange");
     this.setState({
-      [e.target.name]: e.target.value,
+      pageSize: e.target.value,
     });
   };
   componentDidMount() {
@@ -145,6 +145,33 @@ class RecentActivity extends Component {
     // console.log("render");
     // console.log("displayitems", displayitems);
 
+  
+    let items = this.state.act;
+
+    console.log("Page size:", this.state.pageSize);
+    let pgSize = this.state.pageSize;
+
+    let count = 1;
+    if (items.length % pgSize == 0) {
+      count = pgSize;
+    } else {
+      count = pgSize + 1;
+    }
+    console.log("count on each page:", count);
+    console.log("paginate");
+    let start = pgSize * (this.state.curPage - 1);
+    let end = start + pgSize;
+    console.log("start: ", start, ", end: ", end);
+    let displayitems = [];
+    if (end > items.length) {
+      end = items.length;
+    }
+    for (start; start < end; start++) {
+      displayitems.push(items[start]);
+    }
+    console.log("render");
+    console.log("displayitems", displayitems);
+
     let activityList = this.state.activity;
     let actList = this.state.act;
     console.log(activityList);
@@ -154,7 +181,7 @@ class RecentActivity extends Component {
     let recent = obj.sort((a, b) => a.Date - b.Date);
     console.log("recent:", recent);
     return (
-      <div className="showGroup">
+      <div className="showGroups">
         <DashboardNavbar />
         <div className="">
           <div className="row">
@@ -165,7 +192,14 @@ class RecentActivity extends Component {
                 <div className="row  align-items-center">
                   <div className="col">
                     <h3>Recent Activities</h3>
-
+                    <span> 
+                    <select onChange={this.OnChange}>
+                      <option>2</option>
+                      <option>5</option>
+                      <option>10</option>
+                    </select>
+                  </span>
+                  &nbsp;&nbsp;
                     {settleList.map((set) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
@@ -176,7 +210,7 @@ class RecentActivity extends Component {
                       </div>
                     ))}
 
-                    {actList.map((act) => (
+                    {displayitems.map((act) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
                           <li className="list-group-item">
@@ -197,14 +231,8 @@ class RecentActivity extends Component {
                   >
                     {paginationItemsTag}
                   </Pagination> */}
-                  &nbsp;&nbsp;
-                  <span>
-                    <select onChange={this.onChange}>
-                      <option>2</option>
-                      <option>5</option>
-                      <option>10</option>
-                    </select>
-                  </span>
+                
+                  
                 </center>
               </div>
             </div>

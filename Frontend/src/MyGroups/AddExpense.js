@@ -30,13 +30,17 @@ function AddExpense(props) {
     console.log("group data is", props.groupData);
     let user_id = localStorage.getItem("user_id");
     const members = props.groupData.groupMembers;
+    console.log("members: ", members);
+    let memarray = [];
+    memarray = members.map((a) => a._id);
+    console.log("memarray: ", memarray);
 
     const expenseData = {
       description: Object.values(description)[0],
       amount: Object.values(amount)[0],
       //groupId: props.groupId,
       groupName: props.groupData.groupName,
-      groupMembers: members,
+      groupMembers: memarray,
       paidBy: user_id,
     };
 
