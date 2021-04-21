@@ -13,58 +13,6 @@ class RecentActivity extends Component {
       settle: [],
       curPage: 1,
       pageSize: 2,
-      act: [
-        {
-          userName: "Madhuri",
-          expenseDescription: "Party",
-          groupName: "Dressess",
-        },
-        {
-          userName: "Manish",
-          expenseDescription: "Chocolate",
-          groupName: "Dressess",
-        },
-        {
-          userName: "Rachel",
-          expenseDescription: "Cosmetics",
-          groupName: "Bridal shower",
-        },
-        {
-          userName: "Ross",
-          expenseDescription: "Beer",
-          groupName: "Bachelor's Party",
-        },
-        {
-          userName: "Chandler",
-          expenseDescription: "Ice cubes",
-          groupName: "Bachelor's Party",
-        },
-        {
-          userName: "Monica",
-          expenseDescription: "Cake",
-          groupName: "Bridal shower",
-        },
-        {
-          userName: "Kramer",
-          expenseDescription: "golf",
-          groupName: "sports",
-        },
-        {
-          userName: "Jerry",
-          expenseDescription: "Show",
-          groupName: "sports",
-        },
-        {
-          userName: "Rachel",
-          expenseDescription: "Ralpf",
-          groupName: "Dressess",
-        },
-        {
-          userName: "Elaine",
-          expenseDescription: "Grocery",
-          groupName: "Monthly",
-        },
-      ],
     };
   }
   onPage = (e) => {
@@ -85,10 +33,11 @@ class RecentActivity extends Component {
   componentDidMount() {
     document.title = "Recent Activiy";
     console.log(this.state.user_id);
-    const userInfo = { user_id: this.state.user_id };
+    const activityInfo = { user_id: this.state.user_id };
+    console.log("activityInfo", activityInfo);
     axios.defaults.withCredentials = true;
     axios
-      .post(`${backendServer}/dashboard/recent`, userInfo)
+      .post(`${backendServer}/dashboard/recent`, activityInfo)
       .then((response) => {
         console.log("data is", response.data);
         this.setState({
@@ -99,18 +48,18 @@ class RecentActivity extends Component {
         console.log("error occured while connecting to backend:", error);
       });
 
-    axios.defaults.withCredentials = true;
-    axios
-      .post(`${backendServer}/dashboard/recentsettle`)
-      .then((response) => {
-        console.log("data is", response.data);
-        this.setState({
-          settle: this.state.settle.concat(response.data),
-        });
-      })
-      .catch((error) => {
-        console.log("error occured while connecting to backend:", error);
-      });
+    // axios.defaults.withCredentials = true;
+    // axios
+    //   .post(`${backendServer}/dashboard/recentsettle`)
+    //   .then((response) => {
+    //     console.log("data is", response.data);
+    //     this.setState({
+    //       settle: this.state.settle.concat(response.data),
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log("error occured while connecting to backend:", error);
+    //   });
   }
   render() {
     // let paginationItemsTag = [];
@@ -145,8 +94,7 @@ class RecentActivity extends Component {
     // console.log("render");
     // console.log("displayitems", displayitems);
 
-  
-    let items = this.state.act;
+    let items = this.state.activity;
 
     console.log("Page size:", this.state.pageSize);
     let pgSize = this.state.pageSize;
@@ -157,7 +105,7 @@ class RecentActivity extends Component {
     } else {
       count = pgSize + 1;
     }
-    console.log("count on each page:", count);
+
     console.log("paginate");
     let start = pgSize * (this.state.curPage - 1);
     let end = start + pgSize;
@@ -172,14 +120,14 @@ class RecentActivity extends Component {
     console.log("render");
     console.log("displayitems", displayitems);
 
-    let activityList = this.state.activity;
-    let actList = this.state.act;
-    console.log(activityList);
-    let settleList = this.state.settle;
-    let obj = [...activityList, ...settleList];
-    console.log("object", obj);
-    let recent = obj.sort((a, b) => a.Date - b.Date);
-    console.log("recent:", recent);
+    // let activityList = this.state.activity;
+    // let actList = this.state.act;
+    // console.log("activityList",activityList);
+    // let settleList = this.state.settle;
+    // let obj = [...activityList, ...settleList];
+    // console.log("object", obj);
+    // let recent = obj.sort((a, b) => a.Date - b.Date);
+    // console.log("recent:", recent);
     return (
       <div className="showGroups">
         <DashboardNavbar />
@@ -192,15 +140,15 @@ class RecentActivity extends Component {
                 <div className="row  align-items-center">
                   <div className="col">
                     <h3>Recent Activities</h3>
-                    <span> 
-                    <select onChange={this.OnChange}>
-                      <option>2</option>
-                      <option>5</option>
-                      <option>10</option>
-                    </select>
-                  </span>
-                  &nbsp;&nbsp;
-                    {settleList.map((set) => (
+                    <span>
+                      <select onChange={this.OnChange}>
+                        <option>2</option>
+                        <option>5</option>
+                        <option>10</option>
+                      </select>
+                    </span>
+                    &nbsp;&nbsp;
+                    {/* {settleList.map((set) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
                           <li className="list-group-item">
@@ -208,13 +156,14 @@ class RecentActivity extends Component {
                           </li>
                         </ul>
                       </div>
-                    ))}
-
+                    ))} */}
                     {displayitems.map((act) => (
                       <div className="list-group list-group-horizontal">
                         <ul className="list-group">
                           <li className="list-group-item">
-                            {act.userName} added {act.expenseDescription} to{" "}
+                            {act.paidBy} added an expense {act.expDesc} of $
+                            {act.amount}
+                            {""} to the group {""}
                             {act.groupName}
                           </li>
                         </ul>
@@ -231,8 +180,6 @@ class RecentActivity extends Component {
                   >
                     {paginationItemsTag}
                   </Pagination> */}
-                
-                  
                 </center>
               </div>
             </div>

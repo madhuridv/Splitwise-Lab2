@@ -6,6 +6,8 @@ import lady from "../../images/lady.png";
 import { getDashData } from "../../actions/dashboardActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Settle from "./Settle";
+import { BrowserRouter } from "react-router-dom";
 
 class DashboardMiddle extends Component {
   state = {};
@@ -69,61 +71,76 @@ class DashboardMiddle extends Component {
 
     return (
       <div className="">
-        <div className="MidDash">
-          <div className="DashHeader"></div>
-
-          <div className="totalCollection">
-            <div>
-              <label htmlFor="">YOU OWE</label>
+        {/* <div className="DashHeader"><Settle members={youOwed} /> */}
+        {/* <div className="DashHeader">
+          <h3>Dashboard</h3>
+          <BrowserRouter>
+            <a
+              href={`/recentactivity`}
+              className="btn float-right"
+              style={{ marginRight: "10px" }}
+            >
+              Recent Activity
+            </a>
+          </BrowserRouter>
+          <button className="btn float-right settle" onClick={this.onSettleUp}>
+            Settle up
+          </button>
+          </div> */}
+          <div className="MidDash">
+            <div className="totalCollection">
+              <div>
+                <label htmlFor="">YOU OWE</label>
+              </div>
+              <div>
+                <label htmlFor="" className="float-right mr-4">
+                  YOU ARE OWED
+                </label>
+              </div>
             </div>
-            <div>
-              <label htmlFor="" className="float-right mr-4">
-                YOU ARE OWED
-              </label>
+            <div className="flex">
+              <div className="float-left ml-3 borders">
+                <ul>
+                  {youOwed && youOwed.length > 0 ? (
+                    youOwed.map((blog) => (
+                      <span>
+                        <p style={{ color: "red" }}>
+                          You owe {blog.payableTo} $
+                          {(Math.round(blog.pendingAmt * 100) / 100).toFixed(2)}
+                        </p>
+                      </span>
+                    ))
+                  ) : (
+                    <li>
+                      You do not owe anything
+                      <img className="imgs" src={man} alt="" align="left" />
+                    </li>
+                  )}
+                </ul>
+              </div>
+
+              <div>
+                <ul>
+                  {youAreOwed && youAreOwed.length > 0 ? (
+                    youAreOwed.map((blog) => (
+                      <span>
+                        <p className="green">
+                          {blog.borrower} owes $
+                          {(Math.round(blog.pendingAmt * 100) / 100).toFixed(2)}
+                        </p>
+                      </span>
+                    ))
+                  ) : (
+                    <li>
+                      You are not owed anything
+                      <img className="imgs" src={lady} alt="" align="left" />
+                    </li>
+                  )}
+                </ul>
+              </div>
             </div>
           </div>
-          <div className="flex">
-            <div className="float-left ml-3 borders">
-              <ul>
-                {youOwed && youOwed.length > 0 ? (
-                  youOwed.map((blog) => (
-                    <span>
-                      <p style={{ color: "red" }}>
-                        You owe {blog.payableTo} $
-                        {(Math.round(blog.pendingAmt * 100) / 100).toFixed(2)}
-                      </p>
-                    </span>
-                  ))
-                ) : (
-                  <li>
-                    You do not owe anything
-                    <img className="imgs" src={man} alt="" align="left" />
-                  </li>
-                )}
-              </ul>
-            </div>
-
-            <div>
-              <ul>
-                {youAreOwed && youAreOwed.length > 0 ? (
-                  youAreOwed.map((blog) => (
-                    <span>
-                      <p className="green">
-                        {blog.borrower} owes $
-                        {(Math.round(blog.pendingAmt * 100) / 100).toFixed(2)}
-                      </p>
-                    </span>
-                  ))
-                ) : (
-                  <li>
-                    You are not owed anything
-                    <img className="imgs" src={lady} alt="" align="left" />
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
-        </div>
+        
       </div>
     );
   }

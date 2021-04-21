@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const recentSchema = new Schema(
   {
     paidBy: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    settleWithUserId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     eventId: { type: Number },
     eventType: { type: String },
     groupName: { type: String },

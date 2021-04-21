@@ -42,8 +42,11 @@ let handle_request = async (msg, callback) => {
         await borrowerData[i].populate("payableTo").execPopulate();
         let payableToUser = await Users.findById(borrowerData[i].payableTo);
         console.log("payableToUser: ", payableToUser.username);
+        console.log("payableToUserID: ", payableToUser._id);
+
         if (borrowerData[i].pendingAmt > 0) {
           let dashObj = {
+            payableToUserId: payableToUser._id,
             payableTo: payableToUser.username,
             pendingAmt: borrowerData[i].pendingAmt,
           };
