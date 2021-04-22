@@ -36,6 +36,9 @@ let getgroupmembers = require("./services/myGroups/showGroups");
 let addexpense = require("./services/myGroups/addexpense");
 let getexpense = require("./services/myGroups/getexpense");
 let getdashboarddata = require("./services/dashboard/getdashboarddata");
+let getrecentactivity = require("./services/dashboard/getrecentactivity");
+let settleup = require("./services/dashboard/settleup");
+
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -106,3 +109,6 @@ handleTopicRequest("getgroupmembers", getgroupmembers);
 handleTopicRequest("addexpense", addexpense);
 handleTopicRequest("getexpense", getexpense);
 handleTopicRequest("getdashboarddata", getdashboarddata);
+handleTopicRequest("getrecentactivity", getrecentactivity);
+handleTopicRequest("settleup", settleup);
+

@@ -30,12 +30,14 @@ function Settle(props) {
       .then((response) => {
         console.log("response after Axios post", response);
         if (response.status == 200) {
-          alert("Settled up sucessfully!");
-          window.location.reload(false);
+          if (alert("Settled up sucessfully!")) {
+          } else {
+            window.location.reload();
+          }
         }
       })
       .catch((error) => {
-        alert("Failed to add expense");
+        alert("Failed to Settle Up");
         console.log("error:", error);
       });
     handleClose();

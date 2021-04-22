@@ -17,6 +17,7 @@ let handle_request = async (msg, callback) => {
         await payableData[i].populate("borrower").execPopulate();
         let borrowerUser = await Users.findById(payableData[i].borrower);
         console.log("borrower is: ,", borrowerUser.username);
+        console.log("borrower is: ,", borrowerUser._id);
         console.log("payableData[i].pendingAmt: ", payableData[i].pendingAmt);
         if (payableData[i].pendingAmt > 0) {
           let dashObj = {
@@ -26,6 +27,7 @@ let handle_request = async (msg, callback) => {
           dashData.youAreOwed.push(dashObj);
         } else if (payableData[i].pendingAmt < 0) {
           let dashObj = {
+            payableToUserId: borrowerUser._id,
             payableTo: borrowerUser.username,
             pendingAmt: Math.abs(payableData[i].pendingAmt),
           };

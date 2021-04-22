@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import DashboardNavbar from "../DashboardNavbar";
 import axios from "axios";
 import backendServer from "../../../webConfig";
-import { Pagination } from "react-bootstrap";
 
 class RecentActivity extends Component {
   constructor(props) {
@@ -47,53 +46,8 @@ class RecentActivity extends Component {
       .catch((error) => {
         console.log("error occured while connecting to backend:", error);
       });
-
-    // axios.defaults.withCredentials = true;
-    // axios
-    //   .post(`${backendServer}/dashboard/recentsettle`)
-    //   .then((response) => {
-    //     console.log("data is", response.data);
-    //     this.setState({
-    //       settle: this.state.settle.concat(response.data),
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error occured while connecting to backend:", error);
-    //   });
   }
   render() {
-    // let paginationItemsTag = [];
-    // let items = this.state.act;
-    // console.log("page size:",this.state.pageSize);
-    // console.log("Total items:", items.length);
-    // let count = 1;
-    // if (items.length % 4 == 0) {
-    //   count = items.length / 5;
-    // } else {
-    //   count = items.length / 5+ 1;
-    // }
-    // let active = this.state.curPage;
-    // for (let number = 1; number <= count; number++) {
-    //   paginationItemsTag.push(
-    //     <Pagination.Item key={number} active={number === active}>
-    //       {number}
-    //     </Pagination.Item>
-    //   );
-    // }
-    // console.log("paginate");
-    // let start = 5 * (this.state.curPage - 1);
-    // let end = start + 5;
-    // console.log("start: ", start, ", end: ", end);
-    // let displayitems = [];
-    // if (end > items.length) {
-    //   end = items.length;
-    // }
-    // for (start; start < end; start++) {
-    //   displayitems.push(items[start]);
-    // }
-    // console.log("render");
-    // console.log("displayitems", displayitems);
-
     let items = this.state.activity;
 
     console.log("Page size:", this.state.pageSize);
@@ -120,14 +74,6 @@ class RecentActivity extends Component {
     console.log("render");
     console.log("displayitems", displayitems);
 
-    // let activityList = this.state.activity;
-    // let actList = this.state.act;
-    // console.log("activityList",activityList);
-    // let settleList = this.state.settle;
-    // let obj = [...activityList, ...settleList];
-    // console.log("object", obj);
-    // let recent = obj.sort((a, b) => a.Date - b.Date);
-    // console.log("recent:", recent);
     return (
       <div className="showGroups">
         <DashboardNavbar />
@@ -148,27 +94,48 @@ class RecentActivity extends Component {
                       </select>
                     </span>
                     &nbsp;&nbsp;
-                    {/* {settleList.map((set) => (
-                      <div className="list-group list-group-horizontal">
-                        <ul className="list-group">
-                          <li className="list-group-item">
-                            {set.username} cleared dues in {set.groupName}
-                          </li>
-                        </ul>
+                    {displayitems && displayitems.length > 0 ? (
+                      <div>
+                        {displayitems.map((activity) =>
+                          activity.eventId === 1 ? (
+                            <div className="list-group list-group-horizontal">
+                              <li
+                                className="list-group-item"
+                                style={{
+                                  fontFamily: "sans-serif",
+                                  fontSize: "20px",
+                                  width: "100%",
+                                }}
+                              >
+                                <strong>{activity.settlededBy}</strong> settled
+                                dues of ${activity.amount} with{" "}
+                                <strong>{activity.settleWithUser}</strong>
+                              </li>
+                            </div>
+                          ) : (
+                            <div className="list-group list-group-horizontal">
+                              <li
+                                className="list-group-item"
+                                style={{
+                                  fontFamily: "sans-serif",
+                                  fontSize: "20px",
+                                  width: "100%",
+                                }}
+                              >
+                                <strong>{activity.paidBy}</strong> added an
+                                expense <strong>"{activity.expDesc}"</strong> of
+                                amount ${activity.amount} in{" "}
+                                <strong>"{activity.groupName}"</strong>
+                              </li>
+                            </div>
+                          )
+                        )}
                       </div>
-                    ))} */}
-                    {displayitems.map((act) => (
-                      <div className="list-group list-group-horizontal">
-                        <ul className="list-group">
-                          <li className="list-group-item">
-                            {act.paidBy} added an expense {act.expDesc} of $
-                            {act.amount}
-                            {""} to the group {""}
-                            {act.groupName}
-                          </li>
-                        </ul>
-                      </div>
-                    ))}
+                    ) : (
+                      <h4 className="alert-success">
+                        No Recent Activity to show
+                      </h4>
+                    )}
                   </div>
                 </div>
                 <center>
