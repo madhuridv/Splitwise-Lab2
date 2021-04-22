@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DashboardNavbar from "../DashboardNavbar";
 import axios from "axios";
 import backendServer from "../../../webConfig";
+import { Pagination } from "react-bootstrap";
 
 class RecentActivity extends Component {
   constructor(props) {
@@ -25,12 +26,14 @@ class RecentActivity extends Component {
 
   OnChange = (e) => {
     console.log("Inside Onchange");
+    console.log(e.target.type);
+    console.log(e.target.value);
     this.setState({
-      pageSize: e.target.value,
+      pageSize: parseInt(e.target.value, 10),
     });
   };
   componentDidMount() {
-    document.title = "Recent Activiy";
+    document.title = "Recent Activity";
     console.log(this.state.user_id);
     const activityInfo = { user_id: this.state.user_id };
     console.log("activityInfo", activityInfo);
@@ -48,6 +51,7 @@ class RecentActivity extends Component {
       });
   }
   render() {
+    let paginationItemsTag = [];
     let items = this.state.activity;
 
     console.log("Page size:", this.state.pageSize);
@@ -59,10 +63,22 @@ class RecentActivity extends Component {
     } else {
       count = pgSize + 1;
     }
+    console.log("count:", count);
+    console.log("pgSize:", pgSize);
+
+    let active = this.state.curPage;
+    console.log("active:", active);
+    for (let number = 1; number <= count; number++) {
+      paginationItemsTag.push(
+        <Pagination.Item key={number} active={number === active}>
+          {number}
+        </Pagination.Item>
+      );
+    }
 
     console.log("paginate");
-    let start = pgSize * (this.state.curPage - 1);
-    let end = start + pgSize;
+    let start = parseInt(pgSize * (this.state.curPage - 1));
+    let end = this.state.pageSize + start;
     console.log("start: ", start, ", end: ", end);
     let displayitems = [];
     if (end > items.length) {
@@ -71,7 +87,6 @@ class RecentActivity extends Component {
     for (start; start < end; start++) {
       displayitems.push(items[start]);
     }
-    console.log("render");
     console.log("displayitems", displayitems);
 
     return (
@@ -107,9 +122,8 @@ class RecentActivity extends Component {
                                   width: "100%",
                                 }}
                               >
-                                <strong>{activity.settlededBy}</strong> settled
-                                dues of ${activity.amount} with{" "}
-                                <strong>{activity.settleWithUser}</strong>
+                                {activity.settlededBy} settled dues of $
+                                {activity.amount} with {activity.settleWithUser}
                               </li>
                             </div>
                           ) : (
@@ -122,10 +136,9 @@ class RecentActivity extends Component {
                                   width: "100%",
                                 }}
                               >
-                                <strong>{activity.paidBy}</strong> added an
-                                expense <strong>"{activity.expDesc}"</strong> of
-                                amount ${activity.amount} in{" "}
-                                <strong>"{activity.groupName}"</strong>
+                                {activity.paidBy} added an expense "
+                                {activity.expDesc}" of amount ${activity.amount}{" "}
+                                in "{activity.groupName}"
                               </li>
                             </div>
                           )
@@ -141,12 +154,12 @@ class RecentActivity extends Component {
                 <center>
                   <br />
                   <br />
-                  {/* <Pagination
+                  <Pagination
                     onClick={this.onPage}
                     style={{ display: "inline-flex" }}
                   >
                     {paginationItemsTag}
-                  </Pagination> */}
+                  </Pagination>
                 </center>
               </div>
             </div>

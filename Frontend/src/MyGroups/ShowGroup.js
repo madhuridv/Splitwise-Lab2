@@ -77,14 +77,7 @@ class ShowGroup extends Component {
         nextProps.allMembers.groupMembers
       ),
     });
-    // this.setState({
-    //   groupMembers: this.state.groupMembers.concat(
-    //     nextProps.allMembers.groupMembers.reduce(
-    //       (a, o) => (o.isAccepted == 1 && a.push(o._id), a),
-    //       []
-    //     )
-    //   ),
-    // });
+
   }
 
   render() {
