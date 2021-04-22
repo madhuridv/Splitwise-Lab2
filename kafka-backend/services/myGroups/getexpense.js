@@ -1,48 +1,45 @@
-"use strict";
-const Groups = require("../../Models/groupModel");
-const Expense = require("../../Models/expenseModel");
+const Recent = require("../../Models/recentActivity");
 const Users = require("../../Models/userModel");
+const Balance = require("../../Models/balanceModel");
+const Expense = require("../../Models/expenseModel");
 
-async function handle_request(msg, callback) {
+let handle_request = async (msg, callback) => {
   console.log(
-    "---------------Kafka backend :: Get All Expenses----------------"
+    "---------------Kafka backend :: get Recent Activity----------------"
   );
   console.log("Message is: ", msg);
-  // let err = {};
-  // let response = {};
+  let err = {};
+  let response = {};
+
   try {
-    let expDetail = await Expense.findOne({
+    let expData = [];
+    let expDetail = await Expense.find({
       groupName: msg.groupNameFromProps,
     });
-
+    // console.log("expDetail length", expDetail.length);
     if (expDetail) {
-      await expDetail.populate({ path: "exp" }).execPopulate();
-      let data = [];
-      console.log("number of expenses per group:", expDetail.exp.length);
-      for (let i = 0; i < expDetail.exp.length; i++) {
-        let user = await Users.findById(expDetail.exp[i].paidBy);
-        if (!user) {
-          console.log("Data Error");
-          callback(null,500);
-        }
-
+      for (let i = 0; i < expDetail.length; i++) {
+        await expDetail[i].populate("paidBy").execPopulate();
+        let user = await Users.findById(expDetail[i].paidBy);
+        console.log("user", user);
         let schema = {
           paidBy: user.username,
-          expDesc: expDetail.exp[i].expDesc,
-          amount: expDetail.exp[i].amount,
+          expDesc: expDetail[i].expDesc,
+          amount: expDetail[i].amount,
         };
-        data.push(schema);
+        expData.push(schema);
       }
-      
-      console.log("data", data);
-       callback(null, data);
-    } else {
-      callback(null,207);
     }
+    console.log("data:", expData);
+    response.status = 200;
+    response.data = JSON.stringify(expData);
+    return callback(null, response);
   } catch (error) {
     console.log(error);
-    callback(null,500);
+    err.status = 500;
+    err.data = "Error in Data";
+    return callback(err, null);
   }
-}
+};
 
 exports.handle_request = handle_request;

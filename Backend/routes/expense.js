@@ -10,67 +10,22 @@ router.post("/getexpensedetails", async (req, res) => {
   console.log("inside get expense");
   console.log("req.body.groupNameFromProps", req.body.groupNameFromProps);
 
-  kafka.make_request("getexpense", req.body, (err, result) => {
-    console.log("resposnse status:", result);
-    console.log("result from kafka for get expense is", result);
-    if (result === 500) {
-      res.writeHead(500, {
+  kafka.make_request("getexpense", req.body, (err, results) => {
+    console.log("result from kafka for get expense is", results);
+
+    if (err) {
+      console.log(err);
+      res.writeHead(err.status, {
         "Content-Type": "text/plain",
       });
-      res.end("SERVER_ERROR");
-    } else if (result === 207) {
-      res.writeHead(207, {
-        "Content-Type": "text/plain",
-      });
-      res.end("NO_RECORD");
+      res.end(err.data);
     } else {
-      res.writeHead(200, {
+      res.writeHead(results.status, {
         "Content-Type": "text/plain",
       });
-      res.end(JSON.stringify(result));
+      res.end(results.data);
     }
   });
-  //   let err = {};
-  //   let response = {};
-  // try{
-  //   let expDetail = await Expense.findOne({
-  //     groupName: req.body.groupNameFromProps,
-  //   });
-
-  //   if (expDetail) {
-  //     await expDetail.populate({ path: "exp" }).execPopulate();
-  //     let data = [];
-  //     console.log("number of expenses per group:", expDetail.exp.length);
-  //     for (let i = 0; i < expDetail.exp.length; i++) {
-  //       let user = await Users.findById(expDetail.exp[i].paidBy);
-  //       if (!user) {
-  //         console.log("Data Error");
-  //         response.status = 500;
-  //         response.data = "Data error";
-  //       }
-
-  //       let schema = {
-  //         paidBy: user.username,
-  //         expDesc: expDetail.exp[i].expDesc,
-  //         amount: expDetail.exp[i].amount,
-  //       };
-  //       data.push(schema);
-  //     }
-  //     response.data = JSON.stringify(data);
-  //     console.log("response", response);
-  //     return callback(null, response);
-  //   }else {
-  //     response.status = 500;
-  //     response.data = "NO_RECORD";
-  //     return callback(null, response);
-  //   }
-  // }
-  //   catch(error) {
-  //     console.log(error);
-  //     err.status = 500;
-  //     err.data = "Error in Data";
-  //     return callback(err, null);
-  //   }
 });
 
 router.post("/expense", async (req, res) => {

@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express();
 const kafka = require("../kafka/client");
-const Recent = require("../models/recentActivity");
-const Users = require("../models/userModel");
-const Balance = require("../models/balanceModel");
 
 router.post("/settleup", (req, res) => {
   console.log("inside settle up backend");
@@ -29,33 +26,6 @@ router.post("/settleup", (req, res) => {
       res.end();
     }
   });
-  // Balance.updateOne(
-  //   {
-  //     $and: [
-  //       { $or: [{ payableTo: settlededById }, { borrower: settlededById }] },
-  //       {
-  //         $or: [
-  //           { payableTo: settleWithUserId },
-  //           { borrower: settleWithUserId },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  //   { $set: { pendingAmt: 0 } },
-  //   (err, result) => {
-  //     console.log("result from group model kafka backend is:", result);
-  //   }
-  // );
-
-  // let recent = new Recent({
-  //   paidBy: settlededById,
-  //   eventId: "1",
-  //   eventType: "Settled Dues",
-  //   settleWithUserId: settleWithUserId,
-  //   amount: settleUserAmt,
-  // });
-  // console.log("data to insert into recent activity is:", recent);
-  // recent.save();
 });
 
 router.post("/recent", async (req, res) => {

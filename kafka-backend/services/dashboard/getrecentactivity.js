@@ -1,5 +1,6 @@
 const Recent = require("../../Models/recentActivity");
 const Users = require("../../Models/userModel");
+const Balance = require("../../Models/balanceModel");
 
 let handle_request = async (msg, callback) => {
   console.log(
@@ -8,6 +9,8 @@ let handle_request = async (msg, callback) => {
   console.log("Message is: ", msg);
   let err = {};
   let response = {};
+  let dashData = { youOwe: [], youAreOwed: [] };
+
   try {
     let actList = await Recent.find({}).sort({ createdAt: -1 });
     let actData = [];
@@ -15,10 +18,13 @@ let handle_request = async (msg, callback) => {
       console.log("length", actList.length);
 
       for (let i = 0; i < actList.length; i++) {
-        await actList[i].populate("paidBy settleWithUserId").execPopulate();
+        await actList[i].populate("paidBy").execPopulate();
 
         let user = await Users.findById(actList[i].paidBy);
+        console.log("user", user);
+        await actList[i].populate("settleWithUserId").execPopulate();
         let settle = await Users.findById(actList[i].settleWithUserId);
+        console.log("settle", settle);
 
         if (actList[i].eventId === 0) {
           let actObj = {
@@ -30,7 +36,7 @@ let handle_request = async (msg, callback) => {
             eventType: actList[i].eventType,
             createdAt: actList[i].createdAt,
           };
-          console.log("actObj", actObj);
+          console.log("actObj1", actObj);
           actData.push(actObj);
         } else {
           let actObj = {
@@ -41,11 +47,12 @@ let handle_request = async (msg, callback) => {
             eventType: actList[i].eventType,
             createdAt: actList[i].createdAt,
           };
-          console.log("actObj", actObj);
+          console.log("actObj2", actObj);
           actData.push(actObj);
         }
       }
     }
+    console.log("act Data is:", actData);
 
     response.status = 200;
     response.data = JSON.stringify(actData);
