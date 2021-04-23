@@ -9,7 +9,7 @@ let handle_request = async (msg, callback) => {
   console.log("Message is: ", msg);
   let err = {};
   let response = {};
-  let dashData = { youOwe: [], youAreOwed: [] };
+  //let dashData = { youOwe: [], youAreOwed: [] };
 
   try {
     let actList = await Recent.find({}).sort({ createdAt: -1 });

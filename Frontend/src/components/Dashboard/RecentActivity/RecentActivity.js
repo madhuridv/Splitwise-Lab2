@@ -3,6 +3,9 @@ import DashboardNavbar from "../DashboardNavbar";
 import axios from "axios";
 import backendServer from "../../../webConfig";
 import { Pagination } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getRecentData } from "../../../actions/recentActivityActions";
 
 class RecentActivity extends Component {
   constructor(props) {
@@ -37,37 +40,57 @@ class RecentActivity extends Component {
     console.log(this.state.user_id);
     const activityInfo = { user_id: this.state.user_id };
     console.log("activityInfo", activityInfo);
-    axios.defaults.withCredentials = true;
-    axios
-      .post(`${backendServer}/dashboard/recent`, activityInfo)
-      .then((response) => {
-        console.log("data is", response.data);
-        this.setState({
-          activity: this.state.activity.concat(response.data),
-        });
-      })
-      .catch((error) => {
-        console.log("error occured while connecting to backend:", error);
-      });
+    this.props.getRecentData(activityInfo);
+    // axios.defaults.withCredentials = true;
+    // axios
+    //   .post(`${backendServer}/dashboard/recent`, activityInfo)
+    //   .then((response) => {
+    //     console.log("data is", response.data);
+    //     this.setState({
+    //       activity: this.state.activity.concat(response.data),
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log("error occured while connecting to backend:", error);
+    //   });
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log("nextProps.recentData", nextProps.recentData);
+
+    this.setState({
+      activity: this.state.activity.concat(nextProps.recentData),
+    });
   }
   render() {
     let paginationItemsTag = [];
     let items = this.state.activity;
-
-    console.log("Page size:", this.state.pageSize);
+    
+    console.log("Recent activity data is:", items);
+    
     let pgSize = this.state.pageSize;
 
     let count = 1;
-    if (items.length % pgSize == 0) {
-      count = pgSize;
+    let num = items.length / pgSize;
+    console.log(items.length / pgSize);
+    console.log(Number.isInteger(items.length / pgSize));
+    if (Number.isInteger(num)) {
+      count = num;
     } else {
-      count = pgSize + 1;
+      count = Math.floor(num) + 1;
     }
+
+    // if (items.length % pgSize == 0) {
+    //   count =  pgSize;
+    // } else {
+    //   count =  pgSize + 1;
+    // }
     console.log("count:", count);
-    console.log("pgSize:", pgSize);
+    console.log("items.length:", items.length);
+
+
 
     let active = this.state.curPage;
-    console.log("active:", active);
+    
     for (let number = 1; number <= count; number++) {
       paginationItemsTag.push(
         <Pagination.Item key={number} active={number === active}>
@@ -76,10 +99,10 @@ class RecentActivity extends Component {
       );
     }
 
-    console.log("paginate");
+    // console.log("paginate");
     let start = parseInt(pgSize * (this.state.curPage - 1));
     let end = this.state.pageSize + start;
-    console.log("start: ", start, ", end: ", end);
+    //   console.log("start: ", start, ", end: ", end);
     let displayitems = [];
     if (end > items.length) {
       end = items.length;
@@ -87,7 +110,7 @@ class RecentActivity extends Component {
     for (start; start < end; start++) {
       displayitems.push(items[start]);
     }
-    console.log("displayitems", displayitems);
+    // console.log("displayitems", displayitems);
 
     return (
       <div className="showGroups">
@@ -171,5 +194,11 @@ class RecentActivity extends Component {
     );
   }
 }
+RecentActivity.propTypes = {
+  getRecentData: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({
+  recentData: state.recentActivity.recentData,
+});
 
-export default RecentActivity;
+export default connect(mapStateToProps, { getRecentData })(RecentActivity);

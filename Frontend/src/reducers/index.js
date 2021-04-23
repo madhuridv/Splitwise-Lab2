@@ -8,6 +8,7 @@ import createGroupReducer from "./createGroupReducer";
 import myGroupsReducer from "./myGroupReducer";
 import showGroupReducer from "./showGroupReducer";
 import dashboardReducer from "./dashboardReducer";
+import recentActivityReducer from "./recentActivityReducer";
 
 export default combineReducers({
   login: loginReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   myGroups: myGroupsReducer,
   showGroups: showGroupReducer,
   dashboard: dashboardReducer,
+  recentActivity : recentActivityReducer,
 });

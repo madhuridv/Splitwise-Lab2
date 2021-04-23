@@ -27,7 +27,7 @@ function AddExpense(props) {
     e.preventDefault();
 
     console.log(Object.values(description));
-    console.log("group data is", props.groupData);
+    //console.log("group members are ", props.groupMembers[0].groupMembers);
     let user_id = localStorage.getItem("user_id");
     const members = props.groupData.groupMembers;
     console.log("members: ", members);
@@ -45,7 +45,7 @@ function AddExpense(props) {
     };
 
     console.log("expense data: ", expenseData);
-
+    //----------------------------------------------------------
     // let data = {
     //   paidBy: user_id,
     //   expDesc: Object.values(description)[0],
@@ -80,7 +80,7 @@ function AddExpense(props) {
     // };
 
     // console.log("expense data to post", expenseData);
-
+    //--------------------------------------------------------------------
     axios.defaults.withCredentials = true;
     axios
       .post(`${backendServer}/expense/expense`, expenseData)

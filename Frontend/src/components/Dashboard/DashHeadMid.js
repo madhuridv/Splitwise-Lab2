@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Settle from "./Settle";
 import { BrowserRouter } from "react-router-dom";
+import { Redirect } from "react-router";
 
 class DashboardMiddle extends Component {
   state = {};
@@ -67,10 +68,12 @@ class DashboardMiddle extends Component {
         TotalOwe = TotalOwe + youOwed[i].amtToPay;
       }
     }
-    let TotalBalance = TotalOwed - TotalOwe;
 
+     
+   
     return (
       <div className="">
+       
         <div className="showGroup">
           {/* <div className="DashHeader"><Settle members={youOwed} /> */}
 

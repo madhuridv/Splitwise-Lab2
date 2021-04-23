@@ -4,9 +4,7 @@ const Balance = require("../../Models/balanceModel");
 const Expense = require("../../Models/expenseModel");
 
 let handle_request = async (msg, callback) => {
-  console.log(
-    "---------------Kafka backend :: get Recent Activity----------------"
-  );
+  console.log("---------------Kafka backend :: get Expense----------------");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};
@@ -23,9 +21,11 @@ let handle_request = async (msg, callback) => {
         let user = await Users.findById(expDetail[i].paidBy);
         console.log("user", user);
         let schema = {
+          expenseID: expDetail[i]._id,
           paidBy: user.username,
           expDesc: expDetail[i].expDesc,
           amount: expDetail[i].amount,
+          comment: expDetail[i].comments,
         };
         expData.push(schema);
       }

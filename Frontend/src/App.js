@@ -1,6 +1,6 @@
 import { React, Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Landing } from "./components/landing";
+import Landing from "./components/landing";
 import Login from "./components/Login";
 import UserSignup from "./components/UserSignup";
 import Dashboard from "./containers/Dashboard";
@@ -25,7 +25,7 @@ class App extends Component {
               <Route path="/signup" component={UserSignup} />
               <Route exact path="/dashboard" component={Dashboard}></Route>
               <Route path="/profile" component={Profile} />
-               <Route path="/creategroup" component={Group} />
+              <Route path="/creategroup" component={Group} />
               <Route path="/mygroup" component={MyGroup} />
               <Route path="/groups/:groupName" component={ShowGroups} />
               <Route path="/recentactivity" component={RecentActivity} />

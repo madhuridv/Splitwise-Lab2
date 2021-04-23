@@ -57,7 +57,8 @@ class Login extends Component {
     console.log("token length:", this.state.token.length);
 
     if (this.state.token.length > 0) {
-      //localStorage.setItem("token", this.props.user.token);
+      localStorage.setItem("token", this.props.user.token);
+      console.log("token",localStorage.getItem("token"));
       var decoded = jwt_decode(this.state.token.split(" ")[1]);
       console.log("decoded", decoded);
     }

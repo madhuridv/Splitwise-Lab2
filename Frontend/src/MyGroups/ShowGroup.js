@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import DashboardNavbar from "../components/Dashboard/DashboardNavbar";
 import AddExpense from "./AddExpense";
+import Comments from "./comments";
 import axios from "axios";
 import { connect } from "react-redux";
 import backendServer from "../webConfig";
@@ -20,30 +21,9 @@ class ShowGroup extends Component {
       accept: [],
       userEmail: localStorage.getItem("email_id"),
       recentExpense: [],
-      exp: [
-        {
-          paidBy: "Madhuri",
-          expDesc: "Party",
-          amount: "50",
-        },
-        {
-          paidBy: "Madhuri",
-          expDesc: "Party",
-          amount: "100",
-        },
-      ],
     };
   }
-  handleShow = () => {
-    this.setState({
-      isActive: true,
-    });
-  };
-  handleHide = () => {
-    this.setState({
-      isActive: false,
-    });
-  };
+
   componentDidMount() {
     const groupNameFromProps = this.props.match.params.groupName;
     this.setState({
@@ -54,7 +34,7 @@ class ShowGroup extends Component {
     const groupData = { gName: groupNameFromProps };
     console.log("groupData: ", groupData);
     this.props.getGroupMembers(groupData);
-    // this.props.getExpense(groupNameFromProps);
+    //this.props.getExpense(groupNameFromProps);
 
     axios
       .post(`${backendServer}/expense/getexpensedetails`, {
@@ -77,13 +57,17 @@ class ShowGroup extends Component {
         nextProps.allMembers.groupMembers
       ),
     });
-
   }
-
+  addExpenseData = (expense) => {
+    this.setState({
+      groupExpense: update(this.state.groupExpense, { $unshift: [expense] }),
+    });
+  };
   render() {
-    //let expense = this.state.recentExpense;
-    let obj = [...this.state.recentExpense];
-    let expense = obj.sort((a, b) => a.Date - b.Date);
+    console.log("Props grp members:", this.props.allMembers);
+    let expense = this.state.recentExpense;
+    console.log("expense", expense);
+    //let expense = obj.sort((a, b) => a.Date - b.Date);
     let exp1 = this.state.exp;
     //console.log("expense is :", expense);
     let gName = this.state.groupName;
@@ -104,13 +88,24 @@ class ShowGroup extends Component {
                   <div className="col">
                     <h3>{gName}</h3>
                   </div>
+                  {/* <AddExpense groupMembers={this.props.groupMembers}
+											groupName={this.state.groupName}											
+											method={this.addExpenseData} /> */}
                   <AddExpense groupData={this.state} />
                 </div>
                 <div>
                   <div className="">
                     <h5>Recent Activity</h5>
                     {expense.map((exp) => (
-                      <div className="list-group list-group-flush">
+                      <div
+                        className="list-group list-group-flush"
+                        key={exp.expenseID}
+                        onClick={() => {
+                          this.setState({
+                            expenseId: exp.expenseID,
+                          });
+                        }}
+                      >
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1"></h5>
                           <small className="text-muted">{exp.Date}</small>
@@ -118,21 +113,29 @@ class ShowGroup extends Component {
 
                         <p className="mb-1">
                           {" "}
-                          <img
+                          {/* <img
                             src={expensePic}
                             style={{ height: "fit-content" }}
                             alt="Expense"
-                          />
+                          /> */}
                           Expense : {exp.expDesc}
                         </p>
                         <small className="text-muted">
                           {exp.paidBy} paid ${exp.amount}
                         </small>
+                        <div>
+                          {this.state.expenseId === exp.expenseID ? (
+                            <Comments
+                              expId={exp.expenseID}
+                              expComment={exp.comment}
+                              groupName={this.state.groupName}
+                            />
+                          ) : null}
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -151,4 +154,6 @@ const mapStateToProps = (state) => ({
   allMembers: state.showGroups.allMembers,
 });
 
-export default connect(mapStateToProps, { getGroupMembers })(ShowGroup);
+export default connect(mapStateToProps, { getGroupMembers, getExpense })(
+  ShowGroup
+);

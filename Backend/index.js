@@ -24,6 +24,7 @@ const mongoConnection = async () => {
 
 mongoConnection();
 
+
 const login = require("./routes/login");
 const signup = require("./routes/signup");
 const profile = require("./routes/profile");
@@ -33,6 +34,8 @@ const creategroup = require("./routes/creategroup");
 const mygroup = require("./routes/mygroup");
 const expense = require("./routes/expense");
 const dashboard = require("./routes/dashboard");
+const comment = require("./routes/comment");
+
 
 app.use("/login", login);
 app.use("/signup", signup);
@@ -43,6 +46,8 @@ app.use("/creategroup", creategroup);
 app.use("/mygroup",mygroup);
 app.use("/expense",expense);
 app.use("/dashboard",dashboard);
+app.use("/comment",comment);
+
 
 const port = process.env.PORT || 3001;
 var server = app.listen(port, () => {

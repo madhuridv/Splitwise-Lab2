@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express();
 const kafka = require("../kafka/client");
+const { checkAuth } = require("../utils/passport");
 
 router.post("/settleup", (req, res) => {
   console.log("inside settle up backend");
@@ -28,7 +29,7 @@ router.post("/settleup", (req, res) => {
   });
 });
 
-router.post("/recent", async (req, res) => {
+router.post("/recent",  async (req, res) => {
   console.log("inside recent backend");
   console.log("req body:", req.body);
   kafka.make_request("getrecentactivity", req.body, (err, results) => {
@@ -48,7 +49,7 @@ router.post("/recent", async (req, res) => {
   });
 });
 
-router.post("/getdashdata", async (req, res) => {
+router.post("/getdashdata",  async (req, res) => {
   console.log("Backend:: inside getdashdata");
   console.log("req.body :", req.body);
   kafka.make_request("getdashboarddata", req.body, (err, results) => {

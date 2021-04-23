@@ -38,6 +38,10 @@ let getexpense = require("./services/myGroups/getexpense");
 let getdashboarddata = require("./services/dashboard/getdashboarddata");
 let getrecentactivity = require("./services/dashboard/getrecentactivity");
 let settleup = require("./services/dashboard/settleup");
+let addcomment = require("./services/myGroups/addcomment");
+let deletecomment = require("./services/myGroups/deletecomment");
+
+
 
 
 function handleTopicRequest(topic_name, fname) {
@@ -111,4 +115,8 @@ handleTopicRequest("getexpense", getexpense);
 handleTopicRequest("getdashboarddata", getdashboarddata);
 handleTopicRequest("getrecentactivity", getrecentactivity);
 handleTopicRequest("settleup", settleup);
+handleTopicRequest("addcomment", addcomment);
+handleTopicRequest("deletecomment", deletecomment);
+
+
 

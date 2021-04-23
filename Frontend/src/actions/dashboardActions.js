@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const getDashData = (memData) => (dispatch) => {
   console.log("Inside getDashData actions");
+
   axios.defaults.withCredentials = true;
   axios
     .post(`${backendServer}/dashboard/getdashdata`, memData)
