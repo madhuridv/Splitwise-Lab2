@@ -8,21 +8,21 @@ import backendServer from "../webConfig";
 import axios from "axios";
 import { getAllGroups, joinGroup } from "../actions/myGroupActions";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router";
 
 export class MyGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       search: "",
       groups: [],
       email: localStorage.getItem("email_id"),
       user_id: localStorage.getItem("user_id"),
     };
-    this.groupLoad = this.groupLoad.bind(this);
+    this.Load = this.Load.bind(this);
   }
 
-  groupLoad = (memberInfo) => {
+  Load = (memberInfo) => {
     this.props.getAllGroups(memberInfo);
   };
   //To get the all  groups where user is member of those groups
@@ -30,7 +30,7 @@ export class MyGroup extends Component {
     document.title = "My Group";
     const memberInfo = { groupMember: this.state.user_id };
     console.log("Members data", memberInfo);
-    this.groupLoad(memberInfo);
+    this.Load(memberInfo);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +56,6 @@ export class MyGroup extends Component {
     const memData = { groupMember: this.state.user_id };
     console.log("join group data:", groupData);
     this.props.joinGroup(groupData);
-    this.groupLoad(memData);
   };
 
   onLeaveClick = (gName) => {
@@ -81,6 +80,12 @@ export class MyGroup extends Component {
   };
 
   render() {
+    //if not logged in go to login page
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
+
     const { search } = this.state;
     console.log("search", search);
     let groupList = this.state.groups;
@@ -94,6 +99,7 @@ export class MyGroup extends Component {
 
     return (
       <div className="">
+        {redirectVar}
         <DashboardNavbar />
         <div className="showGroup">
           <div className="">

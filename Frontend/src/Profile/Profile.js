@@ -13,6 +13,7 @@ class Profile extends Component {
   }
   render() {
     let profileComponent = null;
+
     let redirectVar = null;
     if (localStorage.getItem("user_id")) {
       profileComponent = <UserProfile />;

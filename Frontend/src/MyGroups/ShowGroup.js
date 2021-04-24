@@ -9,6 +9,7 @@ import backendServer from "../webConfig";
 import expensePic from "../images/expense.png";
 import PropTypes from "prop-types";
 import { getGroupMembers, getExpense } from "../actions/showGroupAction";
+import { Redirect } from "react-router";
 
 //to show list of groups
 class ShowGroup extends Component {
@@ -58,12 +59,14 @@ class ShowGroup extends Component {
       ),
     });
   }
-  addExpenseData = (expense) => {
-    this.setState({
-      groupExpense: update(this.state.groupExpense, { $unshift: [expense] }),
-    });
-  };
+
   render() {
+    //if not logged in go to login page
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
+
     console.log("Props grp members:", this.props.allMembers);
     let expense = this.state.recentExpense;
     console.log("expense", expense);
@@ -77,6 +80,7 @@ class ShowGroup extends Component {
     console.log("groupdata to sent to addexpense", this.state);
     return (
       <div className="showGroup">
+        {redirectVar}
         <DashboardNavbar />
         <div className="">
           <div className="row">

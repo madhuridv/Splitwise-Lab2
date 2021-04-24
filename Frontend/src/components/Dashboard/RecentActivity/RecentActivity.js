@@ -6,6 +6,7 @@ import { Pagination } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getRecentData } from "../../../actions/recentActivityActions";
+import { Redirect } from "react-router";
 
 class RecentActivity extends Component {
   constructor(props) {
@@ -62,11 +63,17 @@ class RecentActivity extends Component {
     });
   }
   render() {
+    //if not logged in go to login page
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
+
     let paginationItemsTag = [];
     let items = this.state.activity;
-    
+
     console.log("Recent activity data is:", items);
-    
+
     let pgSize = this.state.pageSize;
 
     let count = 1;
@@ -87,10 +94,8 @@ class RecentActivity extends Component {
     console.log("count:", count);
     console.log("items.length:", items.length);
 
-
-
     let active = this.state.curPage;
-    
+
     for (let number = 1; number <= count; number++) {
       paginationItemsTag.push(
         <Pagination.Item key={number} active={number === active}>
@@ -114,6 +119,7 @@ class RecentActivity extends Component {
 
     return (
       <div className="showGroups">
+        {redirectVar}
         <DashboardNavbar />
         <div className="">
           <div className="row">

@@ -4,8 +4,10 @@ import axios from "axios";
 
 export const getDashData = (memData) => (dispatch) => {
   console.log("Inside getDashData actions");
-
   axios.defaults.withCredentials = true;
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios
     .post(`${backendServer}/dashboard/getdashdata`, memData)
     .then((response) => {

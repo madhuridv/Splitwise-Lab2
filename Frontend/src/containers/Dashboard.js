@@ -5,12 +5,20 @@ import DashboardNavbar from "../components/Dashboard/DashboardNavbar";
 import DashHeadMid from "../components/Dashboard/DashHeadMid";
 import { Provider } from "react-redux";
 import store from "../store";
+import { Redirect } from "react-router";
 
 class Dashboard extends Component {
   render() {
+    //if not logged in go to login page
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
+
     return (
       <Provider store={store}>
         <div className="main-content">
+          {redirectVar}
           <div className="dashboard-content">
             <Switch>
               <DashboardNavbar />

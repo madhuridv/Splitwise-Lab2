@@ -4,6 +4,9 @@ import axios from "axios";
 
 export const getRecentData = (actData) => (dispatch) => {
   console.log("Inside recent actions");
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios.defaults.withCredentials = true;
   axios
     .post(`${backendServer}/dashboard/recent`, actData)

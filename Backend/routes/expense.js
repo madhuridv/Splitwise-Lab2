@@ -5,8 +5,9 @@ const Expense = require("../models/expense");
 const Users = require("../models/userModel");
 const Balance = require("../models/balanceModel");
 const Recent = require("../models/recentActivity");
+const { checkAuth } = require("../utils/passport");
 
-router.post("/getexpensedetails", async (req, res) => {
+router.post("/getexpensedetails", checkAuth, async (req, res) => {
   console.log("inside get expense");
   console.log("req.body.groupNameFromProps", req.body.groupNameFromProps);
 
@@ -28,7 +29,7 @@ router.post("/getexpensedetails", async (req, res) => {
   });
 });
 
-router.post("/expense", async (req, res) => {
+router.post("/expense", checkAuth, async (req, res) => {
   console.log("inside addexpense  backend");
   console.log("req.body", req.body);
   kafka.make_request("addexpense", req.body, (err, result) => {

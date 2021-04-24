@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { userLogout } from "../../actions/loginAction";
 import { Dropdown } from "react-bootstrap";
 import profile_icon from "../../images/profile_icon.png";
+import { Redirect } from "react-router";
 
 class DashboardHeader extends Component {
   constructor() {
@@ -21,7 +22,11 @@ class DashboardHeader extends Component {
 
   render() {
     let nameMsg = null;
-
+    //if not logged in go to login page
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
     nameMsg = (
       <Dropdown>
         <Dropdown.Toggle variant="link" id="dropdown-basic">
@@ -39,15 +44,18 @@ class DashboardHeader extends Component {
     );
 
     return (
-      <nav className="DashboardNav fixed-top">
-        <NavLink to="/Dashboard">
-          <h2 className="landing-name">
-            <b>Splitwise</b>
-          </h2>
-        </NavLink>
+      <div className="">
+        {redirectVar}
+        <nav className="DashboardNav fixed-top">
+          <NavLink to="/Dashboard">
+            <h2 className="landing-name">
+              <b>Splitwise</b>
+            </h2>
+          </NavLink>
 
-        <div className="Dashfloat">{nameMsg}</div>
-      </nav>
+          <div className="Dashfloat">{nameMsg}</div>
+        </nav>
+      </div>
     );
   }
 }

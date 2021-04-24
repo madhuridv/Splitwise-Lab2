@@ -14,6 +14,9 @@ class Group extends Component {
   render() {
     let groupComp = null;
     let redirectVar = null;
+   
+    
+  
 
     if (localStorage.getItem("user_id")) {
       groupComp = <CreateGroup />;
@@ -23,13 +26,13 @@ class Group extends Component {
 
     return (
       <Provider store={store}>
-      <div>
-      <BrowserRouter>
-        {redirectVar}
-        <DashboardNavbar />
-        {groupComp}
-        </BrowserRouter>
-      </div>
+        <div>
+          <BrowserRouter>
+            {redirectVar}
+            <DashboardNavbar />
+            {groupComp}
+          </BrowserRouter>
+        </div>
       </Provider>
     );
   }

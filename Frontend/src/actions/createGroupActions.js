@@ -4,6 +4,9 @@ import axios from "axios";
 
 export const getAllUsers = () => (dispatch) => {
   console.log("Inside create group actions");
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios.defaults.withCredentials = true;
   axios
     .get(`${backendServer}/creategroup/getUser`)
@@ -21,6 +24,9 @@ export const getAllUsers = () => (dispatch) => {
 
 export const addGroup = (groupDetails) => (dispatch) => {
   console.log("group Data in actions is", groupDetails);
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios.defaults.withCredentials = true;
   axios
     .post(`${backendServer}/creategroup/addgroup`, groupDetails)

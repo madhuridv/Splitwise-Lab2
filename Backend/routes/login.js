@@ -10,6 +10,7 @@ auth();
 
 router.post("/", (req, res) => {
   console.log("inside login backend");
+
   kafka.make_request("user_login", req.body, (err, result) => {
     console.log("result is:", result);
     if (err) {
@@ -31,12 +32,12 @@ router.post("/", (req, res) => {
         });
         res.end("INCORRECT_PASSWORD");
       } else {
-        const payload = { _id: result._id, source: "customer" };
+        const payload = { _id: result._id, source: "user" };
         const token = jwt.sign(payload, secret, {
           expiresIn: 1008000,
         });
         result.token = "JWT " + token;
-        //
+        
         res.cookie("cookie", "admin", {
           maxAge: 900000,
           httpOnly: false,

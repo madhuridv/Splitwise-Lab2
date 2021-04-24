@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express();
 const kafka = require("../kafka/client");
+const { checkAuth } = require("../utils/passport");
 
-router.post("/addgroup", (req, res) => {
+
+router.post("/addgroup",checkAuth, (req, res) => {
   console.log("inside postmethod for create group backend");
   console.log("req.body", req.body);
 
@@ -27,7 +29,7 @@ router.post("/addgroup", (req, res) => {
   });
 });
 
-router.get("/getUser", (req, res) => {
+router.get("/getUser",checkAuth,  (req, res) => {
   console.log("inside get User details create groups in node backend");
   kafka.make_request("getallusers", req.body, (err, result) => {
     console.log("user details:", result);
