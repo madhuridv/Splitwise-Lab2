@@ -10,7 +10,6 @@ import backendServer from "../webConfig";
 import { getUser, updateUser } from "../actions/userProfileActions";
 import { Redirect } from "react-router";
 
-
 //import "../styles/userProfile.css";
 
 class UserProfile extends Component {
@@ -104,17 +103,17 @@ class UserProfile extends Component {
 
   render() {
     var imageSrc;
-  //if not logged in go to login page
-  let redirectVar = null;
-  if (!localStorage.getItem("token")) {
-    redirectVar = <Redirect to="/login" />;
-  }
+    // //if not logged in go to login page
+    // let redirectVar = null;
+    // if (!localStorage.getItem("token")) {
+    //   redirectVar = <Redirect to="/login" />;
+    // }
     if (this.state) {
       imageSrc = `${backendServer}/images/${this.state.user_image}`;
     }
     return (
       <div className="container signup">
-        {redirectVar}
+        {/* {redirectVar} */}
         <div className="col">
           <img
             className="img-fluid"

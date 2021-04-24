@@ -2,7 +2,7 @@
 const Users = require("../../Models/userModel");
 
 function handle_request(msg, callback) {
-  console.log("-----------In Kafka backend:updateuser---------------");
+  console.log("*********updateuser on kafka backend ***********");
   console.log("message is", msg);
 
   Users.findById({ _id: msg.user_id }, (err, user) => {

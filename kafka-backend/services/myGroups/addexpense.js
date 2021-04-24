@@ -4,7 +4,7 @@ const Balance = require("../../Models/balanceModel");
 const Recent = require("../../Models/recentActivity");
 
 let handle_request = async (msg, callback) => {
-  console.log("---------------Kafka backend :: add expense---------------");
+  console.log("************* add expense on kafka backend**********");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};

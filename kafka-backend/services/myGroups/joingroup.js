@@ -2,7 +2,7 @@
 const Users = require("../../Models/userModel");
 const Groups = require("../../Models/groupModel");
 function handle_request(msg, callback) {
-  console.log("----------kafka backend: JOIN GROUP-----------");
+  console.log("*********JOIN GROUP on kafka backend *********");
   console.log("Message received for join group kafka backend is:", msg);
   console.log("GroupName:", msg.groupName);
   console.log("groupId:", msg.groupId);

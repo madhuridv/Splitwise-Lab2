@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const Expense = require("../../Models/expenseModel");
+const Recent = require("../../Models/recentActivity");
 
 let handle_request = async (msg, callback) => {
-  console.log("---------------Kafka backend :: get comment---------------");
+  console.log("******* get comment on Kafka backend*************");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};
@@ -29,8 +30,22 @@ let handle_request = async (msg, callback) => {
       } else {
         if (result) {
           console.log("Comments ", result);
+
+          let recent = new Recent({
+            paidBy: msg.userId,
+            gName: msg.groupName,
+            expDesc:msg.expDesc,
+            commentedBy: msg.username,
+            eventId: "2",
+            eventType: "Comment Added",
+          });
+
+          console.log("data to insert into recent activity is:", recent);
+          recent.save();
+
           response.status = 200;
           response.data = "COMMENT_ADDED";
+
           return callback(null, response);
         } else {
           let err = {};

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Expense = require("../../Models/expenseModel");
 
 let handle_request = async (msg, callback) => {
-  console.log("---------------Kafka backend :: get comment---------------");
+  console.log("********* delete comment on kafka backend ************");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};

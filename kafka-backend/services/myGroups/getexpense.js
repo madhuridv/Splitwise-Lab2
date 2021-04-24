@@ -4,7 +4,7 @@ const Balance = require("../../Models/balanceModel");
 const Expense = require("../../Models/expenseModel");
 
 let handle_request = async (msg, callback) => {
-  console.log("---------------Kafka backend :: get Expense----------------");
+  console.log("****** get Expense on Kafka backend *******");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};

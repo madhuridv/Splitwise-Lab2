@@ -5,9 +5,9 @@ import axios from "axios";
 export const getGroupMembers = (memData) => (dispatch) => {
   console.log("Inside show groups actions");
   console.log("group Data from actions:", memData);
-  axios.defaults.headers.common["authorization"] = localStorage.getItem(
-    "token"
-  );
+  // axios.defaults.headers.common["authorization"] = localStorage.getItem(
+  //   "token"
+  // );
   axios.defaults.withCredentials = true;
   axios
     .post(`${backendServer}/mygroup/getmembers`, memData)

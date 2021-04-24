@@ -10,15 +10,15 @@ import { Redirect } from "react-router";
 class Dashboard extends Component {
   render() {
     //if not logged in go to login page
-    let redirectVar = null;
-    if (!localStorage.getItem("token")) {
-      redirectVar = <Redirect to="/login" />;
-    }
+    // let redirectVar = null;
+    // if (!localStorage.getItem("token")) {
+    //   redirectVar = <Redirect to="/login" />;
+    // }
 
     return (
       <Provider store={store}>
         <div className="main-content">
-          {redirectVar}
+          {/* {redirectVar} */}
           <div className="dashboard-content">
             <Switch>
               <DashboardNavbar />

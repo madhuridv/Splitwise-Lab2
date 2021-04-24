@@ -2,7 +2,7 @@
 const Groups = require("../../Models/groupModel");
 
 function handle_request(msg, callback) {
-  console.log("---------------Kafka backend :: getallgroups----------------");
+  console.log("******* getallgroups on kafka backend **********");
   console.log("Message is: ", msg);
   Groups.find(
     { "groupMembers._id": msg.groupMember },

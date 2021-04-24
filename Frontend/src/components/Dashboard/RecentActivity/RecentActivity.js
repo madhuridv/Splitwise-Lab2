@@ -64,10 +64,10 @@ class RecentActivity extends Component {
   }
   render() {
     //if not logged in go to login page
-    let redirectVar = null;
-    if (!localStorage.getItem("token")) {
-      redirectVar = <Redirect to="/login" />;
-    }
+    // let redirectVar = null;
+    // if (!localStorage.getItem("token")) {
+    //   redirectVar = <Redirect to="/login" />;
+    // }
 
     let paginationItemsTag = [];
     let items = this.state.activity;
@@ -115,11 +115,10 @@ class RecentActivity extends Component {
     for (start; start < end; start++) {
       displayitems.push(items[start]);
     }
-    // console.log("displayitems", displayitems);
 
     return (
       <div className="showGroups">
-        {redirectVar}
+        {/* {redirectVar} */}
         <DashboardNavbar />
         <div className="">
           <div className="row">
@@ -129,7 +128,9 @@ class RecentActivity extends Component {
               <div className="container">
                 <div className="row  align-items-center">
                   <div className="col">
-                    <h3>Recent Activities</h3>
+                    
+                    <h3>Recent Activities</h3><select className ="form-control"> <option selected>Type group Name</option></select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span>
                       <select onChange={this.OnChange}>
                         <option>2</option>
@@ -140,43 +141,63 @@ class RecentActivity extends Component {
                     &nbsp;&nbsp;
                     {displayitems && displayitems.length > 0 ? (
                       <div>
-                        {displayitems.map((activity) =>
-                          activity.eventId === 1 ? (
-                            <div className="list-group list-group-horizontal">
-                              <li
-                                className="list-group-item"
-                                style={{
-                                  fontFamily: "sans-serif",
-                                  fontSize: "20px",
-                                  width: "100%",
-                                }}
-                              >
-                                {activity.settlededBy} settled dues of $
-                                {activity.amount} with {activity.settleWithUser}
-                              </li>
-                            </div>
-                          ) : (
-                            <div className="list-group list-group-horizontal">
-                              <li
-                                className="list-group-item"
-                                style={{
-                                  fontFamily: "sans-serif",
-                                  fontSize: "20px",
-                                  width: "100%",
-                                }}
-                              >
-                                {activity.paidBy} added an expense "
-                                {activity.expDesc}" of amount ${activity.amount}{" "}
-                                in "{activity.groupName}"
-                              </li>
-                            </div>
-                          )
-                        )}
+                        {displayitems.map((activity) => {
+                          if (activity.eventId === 1) {
+                            return (
+                              <div className="list-group list-group-horizontal">
+                                <li
+                                  className="list-group-item"
+                                  style={{
+                                    fontFamily: "sans-serif",
+                                    fontSize: "20px",
+                                    width: "100%",
+                                  }}
+                                >
+                                  {activity.settlededBy} settled dues of $
+                                  {activity.amount} with{" "}
+                                  {activity.settleWithUser}
+                                </li>
+                              </div>
+                            );
+                          } else if (activity.eventId === 0) {
+                            return (
+                              <div className="list-group list-group-horizontal">
+                                <li
+                                  className="list-group-item"
+                                  style={{
+                                    fontFamily: "sans-serif",
+                                    fontSize: "20px",
+                                    width: "100%",
+                                  }}
+                                >
+                                  {activity.paidBy} added an expense "
+                                  {activity.expDesc}" of amount $
+                                  {activity.amount} in "{activity.groupName}"
+                                </li>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div className="list-group list-group-horizontal">
+                                <li
+                                  className="list-group-item"
+                                  style={{
+                                    fontFamily: "sans-serif",
+                                    fontSize: "20px",
+                                    width: "100%",
+                                  }}
+                                >
+                                  {activity.commentedBy} commented on the
+                                  expense "{activity.expDesc}" in "
+                                  {activity.gName}" group
+                                </li>
+                              </div>
+                            );
+                          }
+                        })}
                       </div>
                     ) : (
-                      <h4 className="alert-success">
-                        No Recent Activity to show
-                      </h4>
+                      <h4 className="">No Recent Activity to show</h4>
                     )}
                   </div>
                 </div>

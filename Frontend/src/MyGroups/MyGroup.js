@@ -68,23 +68,26 @@ export class MyGroup extends Component {
       .then((response) => {
         console.log("Response after Axios call", response);
         if (response.status == 200 && response.data === "GROUP_DELETED") {
-          alert("Sad to see you leave this group!");
+          if (alert("Sad to see you leave this group!")) {
+          } else {
+            window.location.reload();
+          }
         } else if (response.status == 401 && response.data === "CLEAR_DUES") {
           alert("Please clear your dues before leaving the group!");
         }
       })
       .catch((error) => {
         console.log("error occured while connecting to backend:", error);
-        alert("Please cleaer your dues before leaving the group!");
+        alert("Please clear your dues before leaving the group!");
       });
   };
 
   render() {
-    //if not logged in go to login page
-    let redirectVar = null;
-    if (!localStorage.getItem("token")) {
-      redirectVar = <Redirect to="/login" />;
-    }
+    // //if not logged in go to login page
+    // let redirectVar = null;
+    // if (!localStorage.getItem("token")) {
+    //   redirectVar = <Redirect to="/login" />;
+    // }
 
     const { search } = this.state;
     console.log("search", search);
@@ -99,7 +102,7 @@ export class MyGroup extends Component {
 
     return (
       <div className="">
-        {redirectVar}
+        {/* {redirectVar} */}
         <DashboardNavbar />
         <div className="showGroup">
           <div className="">

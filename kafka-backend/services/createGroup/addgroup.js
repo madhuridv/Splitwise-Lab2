@@ -3,7 +3,7 @@ const Users = require("../../Models/userModel");
 const Groups = require("../../Models/groupModel");
 
 function handle_request(msg, callback) {
-  console.log("-----------------------CREATE GROUP----------------------");
+  console.log("**************CREATE GROUP********************");
   console.log("Message received for create group kafka backend is:", msg);
   console.log("GroupName:", msg.groupName);
   console.log("created by:", msg.createdBy);

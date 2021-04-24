@@ -6,13 +6,16 @@ import { connect } from "react-redux";
 import alert from "sweetalert";
 
 const Comments = (props) => {
-  const [commentText, setCommentText] = useState();
+  const [comment, setComment] = useState();
 
-  const onSubmitComment = (e) => {
+  const onCommentSubmit = (e) => {
     e.preventDefault();
     console.log("props.expComments: ", props.expComment);
+
     const commentData = {
-      message: commentText,
+      message: comment,
+      groupName: props.groupName,
+      expDesc: props.expDesc,
       expId: props.expId,
       userId: localStorage.getItem("user_id"),
       username: localStorage.getItem("name"),
@@ -34,7 +37,7 @@ const Comments = (props) => {
       });
   };
 
-  const handleDeleteComment = (commentId, commentor) => {
+  const onDeleteComment = (commentId, commentor) => {
     const currentUser = localStorage.getItem("name");
 
     if (currentUser !== commentor) {
@@ -80,13 +83,13 @@ const Comments = (props) => {
         <span>Expense Comments :</span>
       </div>
       <br />
-      <form onSubmit={onSubmitComment}>
+      <form onSubmit={onCommentSubmit}>
         <div className="container ">
           <div className="row align-items-right justify-content-center">
             <div className="col">
               <textarea
-                name="commentText"
-                id="commentText"
+                name="comment"
+                id="comment"
                 col="60"
                 row="10"
                 style={{
@@ -97,7 +100,7 @@ const Comments = (props) => {
                   width: "300px",
                 }}
                 onChange={(e) => {
-                  setCommentText(e.target.value);
+                  setComment(e.target.value);
                 }}
               ></textarea>
             </div>
@@ -171,7 +174,7 @@ const Comments = (props) => {
                       <button
                         className="btn"
                         onClick={() =>
-                          handleDeleteComment(comment._id, comment.username)
+                          onDeleteComment(comment._id, comment.username)
                         }
                         style={{ color: "red" }}
                       >
@@ -188,6 +191,5 @@ const Comments = (props) => {
     </div>
   );
 };
-//export default Comments;
 
 export default connect(null, { getExpense })(Comments);

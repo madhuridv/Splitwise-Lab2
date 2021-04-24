@@ -22,11 +22,11 @@ class DashboardHeader extends Component {
 
   render() {
     let nameMsg = null;
-    //if not logged in go to login page
-    let redirectVar = null;
-    if (!localStorage.getItem("token")) {
-      redirectVar = <Redirect to="/login" />;
-    }
+    // //if not logged in go to login page
+    // let redirectVar = null;
+    // if (!localStorage.getItem("token")) {
+    //   redirectVar = <Redirect to="/login" />;
+    // }
     nameMsg = (
       <Dropdown>
         <Dropdown.Toggle variant="link" id="dropdown-basic">
@@ -45,7 +45,7 @@ class DashboardHeader extends Component {
 
     return (
       <div className="">
-        {redirectVar}
+        {/* {redirectVar} */}
         <nav className="DashboardNav fixed-top">
           <NavLink to="/Dashboard">
             <h2 className="landing-name">

@@ -3,7 +3,7 @@ const Groups = require("../../Models/groupModel");
 
 function handle_request(msg, callback) {
   console.log(
-    "---------------Kafka backend :: getgroupmembers----------------"
+    "******* get groupmembers on kafka backend***********"
   );
   console.log("Message is: ", msg);
   Groups.findOne(

@@ -40,8 +40,7 @@ let getrecentactivity = require("./services/dashboard/getrecentactivity");
 let settleup = require("./services/dashboard/settleup");
 let addcomment = require("./services/myGroups/addcomment");
 let deletecomment = require("./services/myGroups/deletecomment");
-
-
+let exitgroup = require("./services/myGroups/exitgroup");
 
 
 function handleTopicRequest(topic_name, fname) {
@@ -117,6 +116,7 @@ handleTopicRequest("getrecentactivity", getrecentactivity);
 handleTopicRequest("settleup", settleup);
 handleTopicRequest("addcomment", addcomment);
 handleTopicRequest("deletecomment", deletecomment);
+handleTopicRequest("exitgroup", exitgroup);
 
 
 

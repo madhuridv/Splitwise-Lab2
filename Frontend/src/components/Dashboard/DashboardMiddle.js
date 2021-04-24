@@ -41,12 +41,7 @@ class DashboardMiddle extends Component {
     this.props.getDashData(data);
   }
   render() {
-    // let dashBoardData = this.state.dashData;
-    // console.log("dashBoardData: ", dashBoardData);
-    // let youAreOwed = this.state.dashData.keyYouAreOwed;
-    // console.log("youAreOwed: ", youAreOwed);
-    // let youOwed = this.state.dashData.keyYouOwe;
-    // console.log("youOwed: ", youOwed);
+
 
     let dashBoardData = this.props.dashboardData;
     console.log("dashBoardData: ", dashBoardData);
@@ -67,26 +62,11 @@ class DashboardMiddle extends Component {
         TotalOwe = TotalOwe + youOwed[i].amtToPay;
       }
     }
-    let TotalBalance = TotalOwed - TotalOwe;
+   
 
     return (
       <div className="">
-        {/* <div className="DashHeader"><Settle members={youOwed} /> */}
-        {/* <div className="DashHeader">
-          <h3>Dashboard</h3>
-          <BrowserRouter>
-            <a
-              href={`/recentactivity`}
-              className="btn float-right"
-              style={{ marginRight: "10px" }}
-            >
-              Recent Activity
-            </a>
-          </BrowserRouter>
-          <button className="btn float-right settle" onClick={this.onSettleUp}>
-            Settle up
-          </button>
-          </div> */}
+       
           <div className="MidDash">
             <div className="totalCollection">
               <div>

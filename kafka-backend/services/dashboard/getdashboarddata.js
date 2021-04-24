@@ -3,7 +3,7 @@ const Balance = require("../../Models/balanceModel");
 const Users = require("../../Models/userModel");
 
 let handle_request = async (msg, callback) => {
-  console.log("---------------Kafka backend :: getDashData----------------");
+  console.log("************* getDashData on Kafka Backend**************** ");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};
@@ -43,8 +43,8 @@ let handle_request = async (msg, callback) => {
       for (let i = 0; i < borrowerData.length; i++) {
         await borrowerData[i].populate("payableTo").execPopulate();
         let payableToUser = await Users.findById(borrowerData[i].payableTo);
-        console.log("payableToUser: ", payableToUser.username);
-        console.log("payableToUserID: ", payableToUser._id);
+        // console.log("payableToUser: ", payableToUser.username);
+        // console.log("payableToUserID: ", payableToUser._id);
 
         if (borrowerData[i].pendingAmt > 0) {
           let dashObj = {

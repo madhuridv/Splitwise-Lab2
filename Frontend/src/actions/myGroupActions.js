@@ -26,9 +26,9 @@ export const getAllGroups = (memData) => (dispatch) => {
 export const joinGroup = (memData) => (dispatch) => {
   console.log("Inside join groups actions");
   console.log("Data to backend:", memData);
-  axios.defaults.headers.common["authorization"] = localStorage.getItem(
-    "token"
-  );
+  // axios.defaults.headers.common["authorization"] = localStorage.getItem(
+  //   "token"
+  // );
   axios.defaults.withCredentials = true;
   axios
     .post(`${backendServer}/mygroup/joingroup`, memData)

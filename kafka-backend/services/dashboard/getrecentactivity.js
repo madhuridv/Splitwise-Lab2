@@ -3,9 +3,7 @@ const Users = require("../../Models/userModel");
 const Balance = require("../../Models/balanceModel");
 
 let handle_request = async (msg, callback) => {
-  console.log(
-    "---------------Kafka backend :: get Recent Activity----------------"
-  );
+  console.log("********get Recent Activity on Kafka backend**********");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};
@@ -38,7 +36,7 @@ let handle_request = async (msg, callback) => {
           };
           console.log("actObj1", actObj);
           actData.push(actObj);
-        } else {
+        } else if (actList[i].eventId === 1) {
           let actObj = {
             settlededBy: user.username,
             settleWithUser: settle.username,
@@ -48,6 +46,17 @@ let handle_request = async (msg, callback) => {
             createdAt: actList[i].createdAt,
           };
           console.log("actObj2", actObj);
+          actData.push(actObj);
+        } else {
+          let actObj = {
+            commentedBy: actList[i].commentedBy,
+            gName: actList[i].gName,
+            expDesc: actList[i].expDesc,
+            eventId: actList[i].eventId,
+            eventType: actList[i].eventType,
+            createdAt: actList[i].createdAt,
+          };
+          console.log("actObj3", actObj);
           actData.push(actObj);
         }
       }

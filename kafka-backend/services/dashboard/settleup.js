@@ -3,7 +3,7 @@ const Users = require("../../Models/userModel");
 const Balance = require("../../Models/balanceModel");
 
 let handle_request = async (msg, callback) => {
-  console.log("---------------Kafka backend :: settle up----------------");
+  console.log("***********settle up on Kafka backend ************");
   console.log("Message is: ", msg);
   let err = {};
   let response = {};

@@ -14,7 +14,7 @@ function Settle(props) {
   const settleUsers = props.members;
   console.log("settleUsers", settleUsers);
 
-  const onSubmitExpense = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const settleData = {
       settleUserAmt: member[0].pendingAmt,
@@ -59,11 +59,7 @@ function Settle(props) {
           <Modal.Body>
             <div className="row">
               <div className="col-md-8">
-                <form
-                  className="form"
-                  id="expense-form"
-                  onSubmit={onSubmitExpense}
-                >
+                <form className="form" id="expense-form" onSubmit={onSubmit}>
                   <Multiselect
                     options={settleUsers}
                     singleSelect // Options to display in the dropdown

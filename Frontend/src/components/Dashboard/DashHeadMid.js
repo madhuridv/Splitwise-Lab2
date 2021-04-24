@@ -42,13 +42,6 @@ class DashboardMiddle extends Component {
     this.props.getDashData(data);
   }
   render() {
-    // let dashBoardData = this.state.dashData;
-    // console.log("dashBoardData: ", dashBoardData);
-    // let youAreOwed = this.state.dashData.keyYouAreOwed;
-    // console.log("youAreOwed: ", youAreOwed);
-    // let youOwed = this.state.dashData.keyYouOwe;
-    // console.log("youOwed: ", youOwed);
-
     let dashBoardData = this.props.dashboardData;
     console.log("dashBoardData: ", dashBoardData);
     let youAreOwed = this.props.dashboardData.youAreOwed;
@@ -56,47 +49,41 @@ class DashboardMiddle extends Component {
     let youOwed = this.props.dashboardData.youOwe;
     console.log("youOwed: ", youOwed);
 
-    let TotalOwe = 0;
-    let TotalOwed = 0;
-    if (youAreOwed && youAreOwed.length > 0) {
-      for (let i = 0; i < youAreOwed.length; i++) {
-        TotalOwed = TotalOwed + youAreOwed[i].amtToPay;
-      }
-    }
-    if (youOwed && youOwed.length > 0) {
-      for (let i = 0; i < youOwed.length; i++) {
-        TotalOwe = TotalOwe + youOwed[i].amtToPay;
-      }
-    }
+    // let TotalOwe = 0;
+    // let TotalOwed = 0;
+    // if (youAreOwed && youAreOwed.length > 0) {
+    //   for (let i = 0; i < youAreOwed.length; i++) {
+    //     TotalOwed = TotalOwed + youAreOwed[i].amtToPay;
+    //   }
+    // }
+    // if (youOwed && youOwed.length > 0) {
+    //   for (let i = 0; i < youOwed.length; i++) {
+    //     TotalOwe = TotalOwe + youOwed[i].amtToPay;
+    //   }
+    // }
 
-     
-   
     return (
       <div className="">
-       
         <div className="showGroup">
-          {/* <div className="DashHeader"><Settle members={youOwed} /> */}
-
-         
-            <div className="DashHeader">
-              <h3>Dashboard</h3>
-              <BrowserRouter>
-                <a
-                  href={`/recentactivity`}
-                  className="btn float-right"
-                  style={{ marginRight: "10px" }}
-                >
-                  Recent Activity
-                </a>
-              </BrowserRouter>
-              {/* <button
+          <div className="DashHeader">
+            <h3>Dashboard</h3>
+            <BrowserRouter>
+              <a
+                href={`/recentactivity`}
+                className="btn float-right"
+                style={{ marginRight: "10px" }}
+              >
+                Recent Activity
+              </a>
+            </BrowserRouter>
+            {/* <button
                 className="btn float-right settle"
                 onClick={this.onSettleUp}
               >
                 Settle up
               </button> */}
-              <Settle members={youOwed} />
-              <div className="MidDash">
+            <Settle members={youOwed} />
+            <div className="MidDash">
               <div className="totalCollection">
                 <div>
                   <label htmlFor="">YOU OWE</label>
@@ -111,11 +98,11 @@ class DashboardMiddle extends Component {
                 <div className="float-left ml-3 borders">
                   <ul>
                     {youOwed && youOwed.length > 0 ? (
-                      youOwed.map((blog) => (
+                      youOwed.map((owe) => (
                         <span>
                           <p style={{ color: "red" }}>
-                            You owe {blog.payableTo} $
-                            {(Math.round(blog.pendingAmt * 100) / 100).toFixed(
+                            You owe {owe.payableTo} $
+                            {(Math.round(owe.pendingAmt * 100) / 100).toFixed(
                               2
                             )}
                           </p>
@@ -133,11 +120,11 @@ class DashboardMiddle extends Component {
                 <div>
                   <ul>
                     {youAreOwed && youAreOwed.length > 0 ? (
-                      youAreOwed.map((blog) => (
+                      youAreOwed.map((owed) => (
                         <span>
                           <p className="green">
-                            {blog.borrower} owes $
-                            {(Math.round(blog.pendingAmt * 100) / 100).toFixed(
+                            {owed.borrower} owes $
+                            {(Math.round(owed.pendingAmt * 100) / 100).toFixed(
                               2
                             )}
                           </p>

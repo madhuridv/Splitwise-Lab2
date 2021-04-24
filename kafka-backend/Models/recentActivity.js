@@ -10,6 +10,8 @@ const recentSchema = new Schema(
     groupName: { type: String },
     expDesc: { type: String },
     amount: { type: Number },
+    commentedBy: { type: String },
+    gName: { type: String },
     createdAt: { type: Date, default: Date.now },
   },
   {

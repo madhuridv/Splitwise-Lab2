@@ -62,10 +62,10 @@ class ShowGroup extends Component {
 
   render() {
     //if not logged in go to login page
-    let redirectVar = null;
-    if (!localStorage.getItem("token")) {
-      redirectVar = <Redirect to="/login" />;
-    }
+    // let redirectVar = null;
+    // if (!localStorage.getItem("token")) {
+    //   redirectVar = <Redirect to="/login" />;
+    // }
 
     console.log("Props grp members:", this.props.allMembers);
     let expense = this.state.recentExpense;
@@ -80,7 +80,7 @@ class ShowGroup extends Component {
     console.log("groupdata to sent to addexpense", this.state);
     return (
       <div className="showGroup">
-        {redirectVar}
+        {/* {redirectVar} */}
         <DashboardNavbar />
         <div className="">
           <div className="row">
@@ -92,9 +92,7 @@ class ShowGroup extends Component {
                   <div className="col">
                     <h3>{gName}</h3>
                   </div>
-                  {/* <AddExpense groupMembers={this.props.groupMembers}
-											groupName={this.state.groupName}											
-											method={this.addExpenseData} /> */}
+                  
                   <AddExpense groupData={this.state} />
                 </div>
                 <div>
@@ -132,6 +130,7 @@ class ShowGroup extends Component {
                             <Comments
                               expId={exp.expenseID}
                               expComment={exp.comment}
+                              expDesc = {exp.expDesc}
                               groupName={this.state.groupName}
                             />
                           ) : null}
