@@ -5,7 +5,7 @@ const Expense = require("../models/expense");
 const mongoose = require("mongoose");
 const { checkAuth } = require("../utils/passport");
 
-router.post("/add",checkAuth, async (req, res) => {
+router.post("/add", async (req, res) => {
   console.log("inside add comment");
   console.log("req.body: ", req.body);
   kafka.make_request("addcomment", req.body, (err, results) => {
@@ -25,7 +25,7 @@ router.post("/add",checkAuth, async (req, res) => {
   });
 });
 
-router.post("/delete", checkAuth,(req, res) => {
+router.post("/delete", (req, res) => {
   console.log("inside Delete comment");
   console.log("req.body: ", req.body);
   kafka.make_request("deletecomment", req.body, (err, results) => {

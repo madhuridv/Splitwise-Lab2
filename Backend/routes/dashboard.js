@@ -49,7 +49,7 @@ router.post("/recent", async (req, res) => {
   });
 });
 
-router.post("/getdashdata", checkAuth, async (req, res) => {
+router.post("/getdashdata",  async (req, res) => {
   console.log("Backend:: inside getdashdata");
   console.log("req.body :", req.body);
   kafka.make_request("getdashboarddata", req.body, (err, results) => {

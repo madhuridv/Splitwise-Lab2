@@ -7,7 +7,7 @@ const Balance = require("../models/balanceModel");
 const mongoose = require("mongoose");
 
 //from mygroups page
-router.post("/getGroup", checkAuth, (req, res) => {
+router.post("/getGroup",  (req, res) => {
   console.log("inside getGroup backend");
   console.log("req.body : ", req.body);
   kafka.make_request("getgroups", req.body, (err, result) => {
@@ -31,7 +31,7 @@ router.post("/getGroup", checkAuth, (req, res) => {
   });
 });
 
-router.post("/joingroup", checkAuth, (req, res) => {
+router.post("/joingroup",  (req, res) => {
   console.log("inside join groups backend");
   console.log("req.body : ", req.body);
   kafka.make_request("joingroup", req.body, (err, result) => {
@@ -49,7 +49,7 @@ router.post("/joingroup", checkAuth, (req, res) => {
     }
   });
 });
-router.post("/exitgroup", checkAuth, async (req, res) => {
+router.post("/exitgroup",  async (req, res) => {
   console.log("inside exitgroup backend");
   const groupMember = req.body.groupMember;
   console.log("groupMember", groupMember);
@@ -153,7 +153,7 @@ router.post("/exitgroup", checkAuth, async (req, res) => {
 //});
 
 //from show groups page
-router.post("/getmembers", checkAuth, (req, res) => {
+router.post("/getmembers",  (req, res) => {
   console.log("inside get Members backend");
   const gName = req.body.gName;
   console.log("gName", gName);
