@@ -5,6 +5,7 @@ import axios from "axios";
 export const getUser = () => (dispatch) => {
   let email_id = localStorage.getItem("email_id");
   console.log(`${email_id}`);
+  axios.defaults.withCredentials = true;
   // axios.defaults.headers.common["authorization"] = localStorage.getItem(
   //   "token"
   // );

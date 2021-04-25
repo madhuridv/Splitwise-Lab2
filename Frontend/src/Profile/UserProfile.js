@@ -31,6 +31,7 @@ class UserProfile extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("nextProps.allGroups", nextProps.allGroups);
     if (nextProps.userProfile) {
       var { userProfile } = nextProps;
 
@@ -47,6 +48,8 @@ class UserProfile extends Component {
 
       this.setState(userData);
       console.log("userData", userData);
+     
+
     }
   }
 
@@ -111,6 +114,7 @@ class UserProfile extends Component {
     if (this.state) {
       imageSrc = `${backendServer}/images/${this.state.user_image}`;
     }
+    console.log("username", this.state.name);
     return (
       <div className="container signup">
         {/* {redirectVar} */}
