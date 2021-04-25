@@ -13,8 +13,10 @@ app.use(
     extended: true,
   })
 );
+//54.185.72.55
+//app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "http://54.185.72.55:3000", credentials: true }));
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 //use express session to maintain session data
 app.use(
@@ -27,7 +29,7 @@ app.use(
   })
 );
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "http://54.185.72.55:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
