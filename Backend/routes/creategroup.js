@@ -30,7 +30,7 @@ router.post("/addgroup", (req, res) => {
 });
 
 router.get("/getUser", (req, res) => {
-  console.log("inside get User details create groups in node backend");
+  //console.log("inside get User details create groups in node backend");
   kafka.make_request("getallusers", req.body, (err, result) => {
     console.log("user details:", result);
     if (result === 500) {

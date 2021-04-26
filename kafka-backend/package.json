@@ -12,6 +12,7 @@
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "mongoose": "^5.12.3",
+    "password-hash": "^1.2.2",
     "react-confirm-alert": "^2.7.0"
   },
   "description": ""

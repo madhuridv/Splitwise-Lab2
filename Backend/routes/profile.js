@@ -3,8 +3,8 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const { checkAuth } = require("../utils/passport");
 
-router.get("/:user_id",  (req, res) => {
-  console.log("inside getuser backend");
+router.get("/:user_id", checkAuth, (req, res) => {
+  //console.log("inside getuser backend");
   console.log("req.params", req.params);
   kafka.make_request("getuser", req.params, (err, result) => {
     console.log("Get user Details:", result);
@@ -27,7 +27,7 @@ router.get("/:user_id",  (req, res) => {
   });
 });
 
-router.post("/user", (req, res) => {
+router.post("/user", checkAuth,(req, res) => {
   console.log("inside user profile update");
   console.log("req.body", req.body);
   kafka.make_request("updateuser", req.body, (err, result) => {

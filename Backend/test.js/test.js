@@ -12,7 +12,7 @@ describe("Splitwise", function () {
     it("Incorrect Password", () => {
       agent
         .post("/login")
-        .send({ email_id: "manish@gmail.com", password: "manish1" })
+        .send({ email_id: "ross@gmail.com", password: "ross1" })
         .then(function (res) {
           expect(res.text).to.equal("NO_USER");
         })
@@ -24,7 +24,7 @@ describe("Splitwise", function () {
     it("Invalid User", () => {
       agent
         .post("/login")
-        .send({ email_id: "manish1@gmail.com", password: "manish1" })
+        .send({ email_id: "ross1@gmail.com", password: "ross1" })
         .then(function (res) {
           expect(res.text).to.equal("NO_USER");
         })
@@ -84,27 +84,21 @@ describe("User Signup Test", () => {
 describe("User Profile Test", () => {
   it("Fetch user Name from user id", function () {
     agent
-      .get("/profile/manish@gmail.com")
+      .get("/profile/ross@gmail.com")
       .then(function (res) {
-        console.log("response in user prof test",res);
-        //expect(res).to.have.status(200);
-        //expect(JSON.parse(res.text).length).to.be.at.least(1);
-        //expect(JSON.parse(res.text)[0].name).to.equal("manish");
+        expect(JSON.parse(res.text)[0].name).to.equal("ross");
       })
       .catch((error) => {
         console.log(error);
       });
   });
 
-});
-
   describe("Create group Test", () => {
-    it("Fetch all registered users for group creation", function () {
+    it("Fetch all registered users for grouop creation", function () {
       agent
         .get("/creategroup/getUser")
         .then(function (res) {
-          expect(res).to.have.status(200);
-          expect(JSON.parse(res.text).length).to.be.at.least(1);
+          expect(res.status).to.equal(200);
         })
         .catch((error) => {
           console.log(error);
@@ -117,15 +111,14 @@ describe("User Profile Test", () => {
       agent
         .post("/getdashdata")
         .send({
-          id: "606bacada21b7c26e89bda35",
+          user_id: "6085b270803dbb2fe8a12f33",
         })
         .then(function (res) {
-          expect(res.status).to.equal(404);
+          expect(res.status).to.equal(200);
         })
         .catch((error) => {
           console.log(error);
         });
     });
   });
-
-//});
+});

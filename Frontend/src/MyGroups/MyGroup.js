@@ -84,10 +84,10 @@ export class MyGroup extends Component {
 
   render() {
     // //if not logged in go to login page
-    // let redirectVar = null;
-    // if (!localStorage.getItem("token")) {
-    //   redirectVar = <Redirect to="/login" />;
-    // }
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
 
     const { search } = this.state;
     console.log("search", search);
@@ -102,7 +102,7 @@ export class MyGroup extends Component {
 
     return (
       <div className="">
-        {/* {redirectVar} */}
+        {redirectVar}
         <DashboardNavbar />
         <div className="showGroup">
           <div className="">

@@ -4,9 +4,9 @@ import axios from "axios";
 
 export const getAllUsers = () => (dispatch) => {
   console.log("Inside create group actions");
-  // axios.defaults.headers.common["authorization"] = localStorage.getItem(
-  //   "token"
-  // );
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios.defaults.withCredentials = true;
   axios
     .get(`${backendServer}/creategroup/getUser`)

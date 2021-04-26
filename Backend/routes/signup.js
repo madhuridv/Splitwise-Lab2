@@ -7,7 +7,7 @@ const { secret } = require("../utils/config");
 //auth();
 
 router.post("/", (req, res) => {
-  console.log("inside signup backend");
+ // console.log("inside signup backend");
   kafka.make_request("signup", req.body, (err, result) => {
     console.log("Created user Details:", result);
     if (result === 500) {

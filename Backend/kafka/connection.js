@@ -4,7 +4,7 @@ var http = require("http");
 function ConnectionProvider() {
   this.getConsumer = function (topic_name) {
     // if (!this.kafkaConsumerConnection) {
-      console.log('consumer consumer',topic_name);
+      //console.log('consumer consumer',topic_name);
     this.client = new kafka.KafkaClient("localhost:2181");
     // this.client = new kafka.Client("http://ec2-3-101-130-45.us-west-1.compute.amazonaws.com:2181");
     // this.client = new kafka.KafkaClient("http://54.215.225.151:2181");

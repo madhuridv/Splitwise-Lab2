@@ -64,10 +64,10 @@ class RecentActivity extends Component {
   }
   render() {
     //if not logged in go to login page
-    // let redirectVar = null;
-    // if (!localStorage.getItem("token")) {
-    //   redirectVar = <Redirect to="/login" />;
-    // }
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
 
     let paginationItemsTag = [];
     let items = this.state.activity;
@@ -118,7 +118,7 @@ class RecentActivity extends Component {
 
     return (
       <div className="showGroups">
-        {/* {redirectVar} */}
+        {redirectVar}
         <DashboardNavbar />
         <div className="">
           <div className="row">

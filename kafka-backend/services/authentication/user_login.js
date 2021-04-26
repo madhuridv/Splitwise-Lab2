@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const passwordHash = require("password-hash");
 const Users = require("../../Models/userModel");
 
 function handle_request(message, callback) {

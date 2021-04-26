@@ -107,17 +107,17 @@ class UserProfile extends Component {
   render() {
     var imageSrc;
     // //if not logged in go to login page
-    // let redirectVar = null;
-    // if (!localStorage.getItem("token")) {
-    //   redirectVar = <Redirect to="/login" />;
-    // }
+    let redirectVar = null;
+    if (!localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/login" />;
+    }
     if (this.state) {
       imageSrc = `${backendServer}/images/${this.state.user_image}`;
     }
     console.log("username", this.state.name);
     return (
       <div className="container signup">
-        {/* {redirectVar} */}
+        {redirectVar}
         <div className="col">
           <img
             className="img-fluid"

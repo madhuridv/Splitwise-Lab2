@@ -60,7 +60,7 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
 
   //make sure we have a response topic
   self.setupResponseQueue(self.producer, topic_name, function () {
-    console.log("in response");
+    //console.log("in response");
     //put the request on a topic
 
     /*
@@ -78,15 +78,15 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
         partition: 0,
       },
     ];
-    console.log("in response1");
+    //console.log("in response1");
     console.log(
       "producer in kafka rpc file is ready or not",
       self.producer.ready
     );
     self.producer.send(payloads, function (err, data) {
-      console.log("in response2");
+    //  console.log("in response2");
       if (err) console.log(err);
-      console.log("response data is:", data);
+      //console.log("response data is:", data);
     });
   });
 };
@@ -124,6 +124,6 @@ KafkaRPC.prototype.setupResponseQueue = function (producer, topic_name, next) {
     }
   });
   self.response_queue = true;
-  console.log("returning next");
+ // console.log("returning next");
   return next();
 };

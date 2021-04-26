@@ -6,9 +6,9 @@ export const getUser = () => (dispatch) => {
   let email_id = localStorage.getItem("email_id");
   console.log(`${email_id}`);
   axios.defaults.withCredentials = true;
-  // axios.defaults.headers.common["authorization"] = localStorage.getItem(
-  //   "token"
-  // );
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios
     .get(`${backendServer}/profile/${email_id}`)
     .then((response) => {
@@ -27,6 +27,9 @@ export const getUser = () => (dispatch) => {
 export const updateUser = (userProfileData) => (dispatch) => {
   console.log("userProfileData is", userProfileData);
   axios.defaults.withCredentials = true;
+  axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    "token"
+  );
   axios
     .post(`${backendServer}/profile/user`, userProfileData)
     .then((response) => {

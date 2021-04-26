@@ -11,17 +11,17 @@ class NavBar extends Component {
         {" "}
         <Navbar bg="light" expand="lg">
           <img className="landing-logo" src={logo} alt="Logo" width="20px" />
-          <Navbar.Brand href="http://54.185.72.55:3000/" margin="5px ">
+          <Navbar.Brand href="http://localhost:3000/" margin="5px ">
             Splitwise
           </Navbar.Brand>
           <Nav className="mr-auto">
             <Form inline float-right>
-              <a href="http://54.185.72.55:3000/login">
+              <a href="http://localhost:3000/login">
                 {" "}
                 <Button variant="outline-success">Login</Button>
               </a>
               &nbsp;&nbsp;
-              <a href="http://54.185.72.55:3000/signup">
+              <a href="http://localhost:3000/signup">
                 {" "}
                 <Button variant="outline-success">Sign Up</Button>
               </a>

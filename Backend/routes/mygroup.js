@@ -7,7 +7,7 @@ const Balance = require("../models/balanceModel");
 const mongoose = require("mongoose");
 
 //from mygroups page
-router.post("/getGroup",  (req, res) => {
+router.post("/getGroup", (req, res) => {
   console.log("inside getGroup backend");
   console.log("req.body : ", req.body);
   kafka.make_request("getgroups", req.body, (err, result) => {
@@ -31,7 +31,7 @@ router.post("/getGroup",  (req, res) => {
   });
 });
 
-router.post("/joingroup",  (req, res) => {
+router.post("/joingroup", (req, res) => {
   console.log("inside join groups backend");
   console.log("req.body : ", req.body);
   kafka.make_request("joingroup", req.body, (err, result) => {
@@ -49,7 +49,7 @@ router.post("/joingroup",  (req, res) => {
     }
   });
 });
-router.post("/exitgroup",  async (req, res) => {
+router.post("/exitgroup", async (req, res) => {
   console.log("inside exitgroup backend");
   const groupMember = req.body.groupMember;
   console.log("groupMember", groupMember);
@@ -71,53 +71,53 @@ router.post("/exitgroup",  async (req, res) => {
     }
   });
 
-// let response = {};
-// let err = {};
-//   let dues = await Balance.find(
-//     { borrower: mongoose.Types.ObjectId(req.body.groupMember), pendingAmt: 0 },
-//     {}
-//   );
-//   if (dues) {
-//     for (let i = 0; i < dues.length; i++) {
-//       console.log("dues", dues.length);
-//       if (dues[i].pendingAmt > 0) {
-//         console.log("Clear dues");
-//       } else {
-//         Groups.findOneAndUpdate(
-//           {
-//             groupName: req.body.groupName,
-//           },
-//           {
-//             $pull: {
-//               groupMembers: { _id: groupMember },
-//             },
-//           },
-//           (err, result) => {
-//             if (err) {
-//               console.log("Unable to fetch details.", err);
-//               let err = {};
-//               err.status = 500;
-//               err.data = "ERROR";
-//               //return callback(err, null);
-//             } else {
-//               if (result) {
-//                 console.log("member sucessfully exited", result);
-//                 response.status = 200;
-//                 response.data = "COMMENT_DELETED";
-//                 // return callback(null, response);
-//               } else {
-//                 console.log("server error");
-//                 let err = {};
-//                 err.status = 400;
-//                 err.data = "ERROR";
-//                 //return callback(err, null);
-//               }
-//             }
-//           }
-//         );
-//       }
-//     }
-//   }
+  // let response = {};
+  // let err = {};
+  //   let dues = await Balance.find(
+  //     { borrower: mongoose.Types.ObjectId(req.body.groupMember), pendingAmt: 0 },
+  //     {}
+  //   );
+  //   if (dues) {
+  //     for (let i = 0; i < dues.length; i++) {
+  //       console.log("dues", dues.length);
+  //       if (dues[i].pendingAmt > 0) {
+  //         console.log("Clear dues");
+  //       } else {
+  //         Groups.findOneAndUpdate(
+  //           {
+  //             groupName: req.body.groupName,
+  //           },
+  //           {
+  //             $pull: {
+  //               groupMembers: { _id: groupMember },
+  //             },
+  //           },
+  //           (err, result) => {
+  //             if (err) {
+  //               console.log("Unable to fetch details.", err);
+  //               let err = {};
+  //               err.status = 500;
+  //               err.data = "ERROR";
+  //               //return callback(err, null);
+  //             } else {
+  //               if (result) {
+  //                 console.log("member sucessfully exited", result);
+  //                 response.status = 200;
+  //                 response.data = "COMMENT_DELETED";
+  //                 // return callback(null, response);
+  //               } else {
+  //                 console.log("server error");
+  //                 let err = {};
+  //                 err.status = 400;
+  //                 err.data = "ERROR";
+  //                 //return callback(err, null);
+  //               }
+  //             }
+  //           }
+  //         );
+  //       }
+  //     }
+  //   }
 });
 
 // let sql = `CALL leaveGroup('${req.body.groupName}','${groupMember}')`;
@@ -153,7 +153,7 @@ router.post("/exitgroup",  async (req, res) => {
 //});
 
 //from show groups page
-router.post("/getmembers",  (req, res) => {
+router.post("/getmembers", checkAuth, (req, res) => {
   console.log("inside get Members backend");
   const gName = req.body.gName;
   console.log("gName", gName);
